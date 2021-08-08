@@ -1,0 +1,949 @@
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,shrink-to-fit=no" />
+    <title>Tour Management</title>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="../font/fontawesome-free-5.15.3-web/css/all.min.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/resp.css">
+    <link rel="stylesheet" href="../css/modal.css">
+    <link rel="stylesheet" type="text/css" href="../font/flaticon.css">
+    <link rel="stylesheet" href="../js/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header id="header-top" class="heading-top">
+        <nav class="navbar navbar-expand-lg ftco-navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="home.html">
+                    Stormy
+                    <span class="text-logo">Travel</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-expanded="false" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="home.html">Home</a>
+                        </li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li>
+                        <li class="nav-item"><a href="hotel.html" class="nav-link">Hotel</a></li>
+                        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- <div class="navbar-dialog-option">
+                    <ul class="navbar-nav-dialog">
+                        <li class="nav-item-dialog">
+                            <a href="#login" class="nav-link" data-target="#login" data-toggle="modal">
+                                <span class="material-icons-outlined">
+                                    login
+                                </span>Log In
+                            </a>
+                        </li>
+                        <li class="nav-item-dialog">
+                            <a href="#register" class="nav-link" data-target="#register" data-toggle="modal">
+                                <span class="material-icons-outlined">
+                                    logout
+                                </span>Register
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+            </div>
+        </nav>
+    </header>
+
+    <div class="src-title-layout bg-img js-auto-height">
+        <div class="overlay">
+        </div>
+        <div class="container">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-md-9  fadeInUp animated text-center">
+                    <div class="src-page">
+                        <ul>
+                            <li>
+                                Home <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </li>
+                            <li>
+                                Tours List <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </li>
+                            <li>
+                                DaLat's Tour
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="h1">Tours List</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="src-ftco-search-tour py-5">
+        <div class="container py-5">
+            <div class="ftco-search">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="#" class="search-property-1">
+                            <div class="row no-gutters">
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Destination</label>
+                                        <div class="form-field">
+                                            <div class="icon"><span class="fa fa-search"></span></div>
+                                            <input type="text" class="form-control" placeholder="Search place">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Check-in date</label>
+                                        <div class="form-field">
+                                            <div class="icon"><span class="fa fa-calendar"></span></div>
+                                            <input type="text" class="form-control checkin_date" placeholder="Check In Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Check-out date</label>
+                                        <div class="form-field">
+                                            <div class="icon"><span class="fa fa-calendar"></span></div>
+                                            <input type="text" class="form-control checkout_date" placeholder="Check Out Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Price Limit</label>
+                                        <div class="form-field">
+                                            <div class="select-wrap">
+                                                <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                                <select class="form-control">
+                                                    <option value="">$100</option>
+                                                    <option value="">$10,000</option>
+                                                    <option value="">$50,000</option>
+                                                    <option value="">$100,000</option>
+                                                    <option value="">$200,000</option>
+                                                    <option value="">$300,000</option>
+                                                    <option value="">$400,000</option>
+                                                    <option value="">$500,000</option>
+                                                    <option value="">$600,000</option>
+                                                    <option value="">$700,000</option>
+                                                    <option value="">$800,000</option>
+                                                    <option value="">$900,000</option>
+                                                    <option value="">$1,000,000</option>
+                                                    <option value="">$2,000,000</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group d-flex w-100">
+                                        <div class="form-field w-100 align-items-center d-flex">
+                                            <input type="submit" value="Search" class="align-self-stretch btn-search form-control btn btn-primary">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="title-img-detail py-5">
+        <div class="container">
+            <h1>Tour DaLat for 4 days 3 nights</h1>
+            <div class="row">
+                <div class="col-md-12 d-flex align-items-center justify-content-between">
+                    <div class="location d-flex align-items-end">
+                        <span class="material-icons-outlined">
+                            location_city
+                        </span>
+                        <p>DaLat City</p>
+                    </div>
+                    <p class="price-detail">
+                        Giá từ:
+                        <span class="linethout">5,490,000đ</span>
+                        <span class="price-saled">3,790.000đ</span> /person
+                        <span class="sale-percent">SALE 30%</span>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-8">
+                    <img src="../images/cxg.jpg" data-target="#img-detail" data-toggle="modal">
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-md-12 img2-detail">
+                            <img src="../images/dl-detail.jpg" data-target="#img-detail" data-toggle="modal">
+                        </div>
+                        <div class="col-md">
+                            <div class="row">
+                                <div class="col-md">
+                                    <img src="../images/dl3.jpg" data-target="#img-detail" data-toggle="modal">
+                                </div>
+                                <div class="col-md">
+                                    <img src="../images/dl-blog.jpg" data-target="#img-detail" data-toggle="modal">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="special-feature py-5">
+        <div class="container py-2">
+            <h3>Special Feature</h3>
+            <div class="content-feature-wrapper">
+                <div class="content-feature">
+                    <p>- Thành phố ngàn hoa</p>
+                    <p>- Chợ đêm Đà Lạt</p>
+                    <p>- Đồi thông 2 mộ</p>
+                    <p>- Cánh đồng hoa oải hương</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="schedule py-5">
+        <div class="container">
+            <div class="svg1">
+                <img src="../images/about-shape-1.svg">
+            </div>
+            <div class="ufo">
+                <img src="../images/ufo.svg">
+            </div>
+            <div class="row">
+                <div class="overview py-5">
+                    <div class="container">
+                        <p>Tại sân bay Liên Khương, di chuyển về thành phố Đà Lạt (35km – khoảng 40p). Trên đường đi, Quý khách ghé thăm Thác Prenn - nằm ngay chân đèo Prenn cửa ngõ để đi vào thành phố ngàn hoa. Tại đây Quý khách có thể tham gia chương
+                            trình cưỡi voi ngắm nhìn phong cảnh và chụp ảnh</p>
+                        <p>(Vé cưỡi voi 300.000 vnđ/người/lượt – chi phí tực túc).</p>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="collapse-all">
+                        <span id="openall">Open All</span>
+                        <span id="close">Close All</span>
+                    </div>
+                    <h3 class="heahding-decription">Schedule</h3>
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header d-flex" id="heading1">
+                                <a type="button" class="btn btn-primary" data-toggle="collapse" data-target="#tour1" aria-expanded="true" aria-controls="tour1">
+                                    Day 1:
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="collapse" id="tour1" aria-describedby="heading1" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>Mê Linh Coffee Garden, Thiền Viện Trúc Lâm, Hồ Tuyền Lâm, Chợ Đà Lạt.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header d-flex" id="heading2">
+                                <a type="button" class="btn btn-primary" data-toggle="collapse" data-target="#tour2" aria-expanded="true" aria-controls="tour2">
+                                    Day 2:
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="collapse" id="tour2" aria-describedby="heading2" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>Hồ Xuân Hương, Đi Trek Núi Lang Biang & Trại Mát.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header d-flex" id="heading3">
+                                <a type="button" class="btn btn-primary" data-toggle="collapse" data-target="#tour3" aria-expanded="true" aria-controls="tour3">
+                                    Day 3:
+                                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="collapse" id="tour3" aria-describedby="heading3" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <p>Đồi Thiên Phúc Đức, Quảng Trường Lâm Viên Đà Lạt.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="decription">
+                        <span class="material-icons-outlined">
+                            restaurant
+                            </span>
+                        <div class="content-decription">
+                            <h3>Bữa ăn</h3>
+                            <p>11 Breakfast, 3 Lunch, 1 Brunch, 1 Dinner</p>
+                        </div>
+                    </div>
+                    <div class="decription">
+                        <span class="material-icons-outlined">
+                            commute
+                            </span>
+                        <div class="content-decription">
+                            <h3>Phương tiện</h3>
+                            <p>Airplane, Car, Cruise, Trekking</p>
+                        </div>
+                    </div>
+                    <div class="decription">
+                        <span class="material-icons-outlined">
+                            king_bed
+                            </span>
+                        <div class="content-decription">
+                            <h3>Chỗ ở</h3>
+                            <p>Hotel (10 nights), On-board an overnight cruise in Halong Bay (1 night), N/A (1 night)</p>
+                        </div>
+                    </div>
+                    <div class="decription">
+                        <div class="content-decription-left">
+                            <span class="material-icons-outlined">
+                                        price_check
+                                    </span>
+                            <div class="price-left">
+                                <h3>Include price</h3>
+                                <p>Plane ticket</p>
+                                <p>Hotel</p>
+                                <p>Meal</p>
+                                <p>All transport</p>
+                            </div>
+                        </div>
+                        <div class="content-decription-right">
+                            <span class="material-icons-outlined">
+                                        money_off_csred
+                                    </span>
+                            <div class="price-right">
+                                <h3>Not include price</h3>
+                                <p>VAT</p>
+                                <p>Tips</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="decription">
+                        <span class="material-icons-outlined">
+                            highlight_off
+                            </span>
+                        <div class="content-decription">
+                            <h3>Cancellation policy</h3>
+                            <p>Cancellation received before 60 days: FREE of cha</p>
+                            <p>Cancellation received from 30 days to 59 days prior arrival date: 10% of total rate</p>
+                            <p>Cancellation received from 15 days to 29 days prior arrival date: 30% of total rate</p>
+                            <p>Cancellation received from 7 days to 14 days prior arrival date: 50% of total rate</p>
+                        </div>
+                    </div>
+                    <div class="decription">
+                        <span class="material-icons-outlined">
+                            child_friendly
+                            </span>
+                        <div class="content-decription">
+                            <h3>Children policy</h3>
+                            <p>The rate for children applicable for one child sharing a twin or double cabin with two adults</p>
+                            <p>For infant (
+                                < 04 years old): FOC except domestic ticket cost</p>
+                                    <p>04 - 11 years old without bed: 50% adult rate</p>
+                                    <p>04 - 11 years old with extra bed: 75% adult rate</p>
+                                    <p>04 - 11 years old in twin share: 90% adult rate</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <form class="form-register" method="post" action="#">
+                        <h3>Sign up for a trip!</h3>
+                        <div class="form-group">
+                            <span class="material-icons-outlined">
+                                person
+                            </span>
+                            <input type="text" class="form-control" pattern="[a-zA-Z]{30}" name="firstname" placeholder="First Name" />
+                        </div>
+                        <div class="form-group">
+                            <span class="material-icons-outlined">
+                                person
+                            </span>
+                            <input type="text" class="form-control" pattern="[a-zA-Z]{30}" name="lastname" placeholder="Last Name" />
+                        </div>
+                        <div class="form-group">
+                            <span class="material-icons-outlined">
+                                ring_volume
+                            </span>
+                            <input type="tel" class="form-control" pattern="[0-9]{10}" name="phone" placeholder="Your Phone" />
+                        </div>
+                        <div class="form-group">
+                            <span class="material-icons-outlined">
+                                manage_accounts
+                                </span>
+                            <input type="text" class="form-control" pattern="[0-9]{2}" name="amout" placeholder="Amount people" />
+                        </div>
+                        <div class="form-group">
+                            <span class="material-icons-outlined">
+                                gps_fixed
+                                </span>
+                            <input type="text" class="form-control" name="address" placeholder="Address" />
+                        </div>
+                        <div class="form-group">
+                            <span class="material-icons-outlined">
+                                send
+                                </span>
+                            <input type="email" class="form-control" pattern="[a-zA-Z0-9]" name="email" placeholder="Email" />
+                        </div>
+                        <button class="btn btn-primary">
+                            Regist
+                        </button>
+                    </form>
+                </div>
+            </div>
+            <div class="kkc">
+                <img src="../images/kkc.svg">
+            </div>
+            <div class="svg2">
+                <img src="../images/about-shape-2.svg">
+            </div>
+        </div>
+    </div>
+
+    <div class="comment py-5">
+        <div class="container">
+            <h3>Feedback</h3>
+            <div class="rate-wrapper">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="rating-wrapper">
+                            <div class="rating px-2">
+                                <h1 class="start-avg">0</h1>
+                                <ul class="list-star-avg">
+                                    <li><span class="material-icons-outlined">
+                                        star
+                                        </span>
+                                    </li>
+                                    <li><span class="material-icons-outlined">
+                                        star
+                                        </span>
+                                    </li>
+                                    <li><span class="material-icons-outlined">
+                                        star
+                                        </span>
+                                    </li>
+                                    <li><span class="material-icons-outlined">
+                                        star
+                                        </span>
+                                    </li>
+                                    <li><span class="material-icons-outlined">
+                                        star
+                                        </span>
+                                    </li>
+                                </ul>
+                                <span class="rated-avg">
+                                    0 rated
+                                </span>
+                            </div>
+                            <div class="detail-star">
+                                <ul class="list-star-detail">
+                                    <li>
+                                        <span class="">
+                                           5
+                                           <i class="material-icons-outlined">
+                                            star
+                                            </i>
+                                        </span>
+                                        <span class="percent"></span>
+                                        <span class="count-rated">0 rated</span>
+                                    </li>
+                                    <li>
+                                        <span class="">
+                                           4
+                                           <i class="material-icons-outlined">
+                                            star
+                                            </i>
+                                        </span>
+                                        <span class="percent"></span>
+                                        <span class="count-rated">0 rated</span>
+                                    </li>
+                                    <li>
+                                        <span class="">
+                                           3
+                                           <i class="material-icons-outlined">
+                                            star
+                                            </i>
+                                        </span>
+                                        <span class="percent"></span>
+                                        <span class="count-rated">0 rated</span>
+                                    </li>
+                                    <li>
+                                        <span class="">
+                                           2
+                                           <i class="material-icons-outlined">
+                                            star
+                                            </i>
+                                        </span>
+                                        <span class="percent"></span>
+                                        <span class="count-rated">0 rated</span>
+                                    </li>
+                                    <li>
+                                        <span class="">
+                                           1
+                                           <i class="material-icons-outlined">
+                                            star
+                                            </i>
+                                        </span>
+                                        <span class="percent"></span>
+                                        <span class="count-rated">0 rated</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div>
+                            <form action="#" method="post" class="form-cmt">
+                                <h5>Leave your comment</h5>
+                                <div class="choose-star">
+                                    <ul class="list-star-cmt">
+                                        <li><span class="material-icons-outlined">
+                                    star
+                                    </span>
+                                        </li>
+                                        <li><span class="material-icons-outlined">
+                                    star
+                                    </span>
+                                        </li>
+                                        <li><span class="material-icons-outlined">
+                                    star
+                                    </span>
+                                        </li>
+                                        <li><span class="material-icons-outlined">
+                                    star
+                                    </span>
+                                        </li>
+                                        <li><span class="material-icons-outlined">
+                                    star
+                                    </span>
+                                        </li>
+                                    </ul>
+                                    <p>Chọn sao để đánh giá</p>
+                                </div>
+                                <div class="area-cmt">
+                                    <textarea rows="3" cols="70" placeholder=" Leave Your cmt..."></textarea>
+                                    <span>0 / 500 ký tự</span>
+                                </div>
+                                <div class="btn-cmt">
+                                    <button class="btn btn-primary">Send Your CMT</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="request">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="titleHoidap"><img src="" alt=""> BẠN CÓ CÂU HỎI?</div>
+                    <div class="boxComment">
+                        <div class="fb-comments fb_iframe_widget fb_iframe_widget_fluid_desktop" data-href="https://thefirsttravels.com/" data-numposts="5" data-width="" fb-xfbml-state="rendered" fb-iframe-plugin-query="app_id=&amp;container_width=1140&amp;height=100&amp;href=https%3A%2F%2Fthefirsttravels.com%2F&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v7.0&amp;width=550">
+                            <span style="vertical-align: bottom; width: 550px; height: 263px;">
+                                <iframe name="f1a5e3b9e1efe88" width="550px" height="100px" data-testid="fb:comments Facebook Social Plugin" title="fb:comments Facebook Social Plugin" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" allow="encrypted-media" src="https://www.facebook.com/v7.0/plugins/comments.php?app_id=&amp;channel=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df23dad799930ad4%26domain%3Delitetour.webtravel.vn%26origin%3Dhttps%253A%252F%252Felitetour.webtravel.vn%252Ff368b99e3aaec8c%26relation%3Dparent.parent&amp;container_width=1140&amp;height=100&amp;href=https%3A%2F%2Fthefirsttravels.com%2F&amp;locale=vi_VN&amp;numposts=5&amp;sdk=joey&amp;version=v7.0&amp;width=550" style="border: none; visibility: visible; width: 550px; height: 263px;" class="">
+                                </iframe>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="intro py-5">
+        <div class="container py-5">
+            <div class="intro-wrapper py-5 text-center">
+                <div class="overlay">
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <h3>WE ARE PACIFIC A TRAVEL AGENCY</h3>
+                        <p>We can manage your dream building A small river named Duden flows by their place</p>
+                        <a href="#" class="btn btn-primary">Ask For A Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-tour bg-img">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md border-right">
+                    <div class="footer-first">
+                        <h5>About</h5>
+                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                        <div class="list-icon">
+                            <ul>
+                                <li class="animated">
+                                    <a href="#">
+                                        <span class="fab fa-twitter"></span>
+                                    </a>
+                                </li>
+                                <li class="animated">
+                                    <a href="#">
+                                        <span class="fab fa-facebook-f"></span>
+                                    </a>
+                                </li>
+                                <li class="animated">
+                                    <a href="#">
+                                        <span class="fab fa-instagram"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md border-right">
+                    <div class="footer-grids">
+                        <h5>Infromation</h5>
+                        <ul>
+                            <li>
+                                <a href="#" class="py-2 d-block">Online Enquiry</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">General Enquiries</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Booking Conditions</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Privacy and Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Refund Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Call Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md border-right">
+                    <div class="footer-grids">
+                        <h5>Experience</h5>
+                        <ul>
+                            <li>
+                                <a href="#" class="py-2 d-block">Adventure</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Hotel and Restaurant</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Beach</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Nature</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Camping</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Party</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="footer-grids ends">
+                        <h5>Have a question?</h5>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <span class="icon-footer material-icons-outlined">place</span>
+                                    <span class="text-footer">203 Fake St. Mountain View, San Francisco, California, USA</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="icon-footer fa fa-phone"></span>
+                                    <span class="text-footer">+2 392 3929 210</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="icon-footer fa fa-paper-plane"></span>
+                                    <span class="text-footer">info@yourdomain.com</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            Copyright ©2021 All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="#">Nghĩa Mặp</a>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="img-detail" tabindex="-1" role="dialog" style="display: none;" aria-expanded="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div id="CarouselImg" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <img src="../images/bg-feedback.jpg">
+                            </div>
+                            <div class="carousel-item">
+                                <div src="../images/bg-about.jpg">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="../images/bg-intro.jpg">
+                                </div>
+                                <div class="carousel-item">
+                                    <img src="../images/bg-main-about.jpg">
+                                </div>
+                            </div>
+                        </div>
+
+                        <a class="carousel-control-prev" href="#CarouselImg" role="button" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#CarouselImg" role="button" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" style="display: none;" aria-expanded="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Log In</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="post">
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="input-place">
+                                <input name="username" placeholder="Username" class="form-control" type="text" required="" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <div class="input-place">
+                                <input id="input-password" type="password" placeholder="Password" name="password" class="form-control" required="" />
+                            </div>
+                            <div class="eye" onclick="eyepassword()">
+                                <span>
+                                    <i class="fa fa-eye-slash" id="eye-close"></i>
+                                    <i class="fa fa-eye" id="eye-open"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="btn-login">
+                            <input type="submit" class="form-control" value="Give Me One Click"></input>
+                        </div>
+                        <div class="remember">
+                            <div class="custom-control custom-checkbox mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                <label class="custom-control-label" for="customControlAutosizing">Remember me?</label>
+                            </div>
+                        </div>
+                        <div class="link-register">
+                            <p>Don't have an account?</p>
+                            <p>
+                                <a href="#" data-target="#register" data-toggle="modal">Register Now</a>
+                            </p>
+                        </div>
+                        <p class="text-center">(Or)</p>
+                        <div class="icon-social-network">
+                            <ul class="list-icon">
+                                <li>
+                                    <a href="#" class="fb">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="twt">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="gg">
+                                        <i class="fab fa-google-plus-g"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" style="display: none;" aria-expanded="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Register</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="#">
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="name" placeholder="Your Name" class="form-control" type="text" required="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="email" placeholder="Email" class="form-control" type="email" required="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-lock"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="passsword" id="password" placeholder="PassWord" class="form-control" type="password" required="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-check-circle"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="confirm-password" id="confirm-password" placeholder="Confirm Password" class="form-control" type="password" required="" />
+                            </div>
+                        </div>
+                        <div class="btn-login">
+                            <input type="submit" class="form-control" value="Give Me One Click"></input>
+                        </div>
+                        <div class="remember">
+                            <div class="custom-control custom-checkbox mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing2">
+                                <label class="custom-control-label" for="customControlAutosizing2">I Accept to the Terms & Conditions</label>
+                            </div>
+                        </div>
+                        <div class="link-register">
+                            <p>Don't have an account?</p>
+                            <p>
+                                <a href="#" data-target="#register" data-toggle="modal">Register Now</a>
+                            </p>
+                        </div>
+                        <p class="text-center">(Or)</p>
+                        <div class="icon-social-network">
+                            <ul class="list-icon">
+                                <li>
+                                    <a href="#" class="fb">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="twt">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="gg">
+                                        <i class="fab fa-google-plus-g"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="topFunction()" id="to-top" title="Go to top" style="display: none;">
+        <span class="fas fa-level-up-alt"></span>
+    </button>
+    <script>
+        window.onscroll = function() {
+            scrollFunction();
+        }
+
+        function scrollFunction() {
+            var getValue = document.getElementsByClassName('animated');
+            var arr = [];
+
+            var x = document.documentElement.scrollTop;
+            var y = document.body.scrollTop;
+            var j = 0;
+            for (i = 0; i < getValue.length; i++) {
+                arr.push(getValue[i].classList);
+            }
+            for (i = 0; i < getValue.length; i++) {
+                if (j < 10000) {
+                    if (document.documentElement.scrollTop > j || document.body.scrollTop > j) {
+                        getValue[i + 1].classList.add('fadeInUp');
+                        j += 280;
+                        console.log(j);
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        window.onscroll = function() {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.documentElement.scrollTop > 200 || document.body.scrollTop > 200) {
+                document.getElementById('to-top').style.display = "block";
+            } else {
+                document.getElementById('to-top').style.display = "none";
+            }
+        }
+
+        function topFunction() {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+    </script>
+    <script src="../js/owl.carousel.js"></script>
+    <script src="../js/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/theme-change.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery.magnific-popup.min.js"></script>
+    <link rel="stylesheet" href="../css/magnific-popup.css">
+
+</body>
+
+</html>

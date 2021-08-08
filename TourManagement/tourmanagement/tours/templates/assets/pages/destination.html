@@ -1,0 +1,846 @@
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,shrink-to-fit=no" />
+    <title>Tour Management</title>
+    <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+    <link rel="stylesheet" href="../font/fontawesome-free-5.15.3-web/css/all.min.css">
+    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/resp.css">
+    <link rel="stylesheet" type="text/css" href="../font/flaticon.css">
+    <link rel="stylesheet" href="../js/bootstrap-4.3.1-dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../js/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css" integrity="sha512-sMXtMNL1zRzolHYKEujM2AqCLUR9F2C4/05cdbxjjLSRvMQIciEPCQZo++nk7go3BtSuK9kfa/s+a4f4i5pLkw==" crossorigin="anonymous"
+        referrerpolicy="no-referrer">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header id="header-top" class="heading-top">
+        <nav class="navbar navbar-expand-lg ftco-navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="home.html">
+                    Stormy
+                    <span class="text-logo">Travel</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-expanded="false" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="home.html">Home</a>
+                        </li>
+                        <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                        <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li>
+                        <li class="nav-item"><a href="hotel.html" class="nav-link">Hotel</a></li>
+                        <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
+                        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- <div class="navbar-dialog-option">
+                    <ul class="navbar-nav-dialog">
+                        <li class="nav-item-dialog">
+                            <a href="#login" class="nav-link" data-target="#login" data-toggle="modal">
+                                <span class="material-icons-outlined">
+                                    login
+                                </span>Log In
+                            </a>
+                        </li>
+                        <li class="nav-item-dialog">
+                            <a href="#register" class="nav-link" data-target="#register" data-toggle="modal">
+                                <span class="material-icons-outlined">
+                                    logout
+                                </span>Register
+                            </a>
+                        </li>
+                    </ul>
+                </div> -->
+            </div>
+        </nav>
+    </header>
+
+    <div class="src-title-layout bg-img js-auto-height">
+        <div class="overlay">
+        </div>
+        <div class="container">
+            <div class="row d-flex align-items-center justify-content-center">
+                <div class="col-md-9  fadeInUp animated text-center">
+                    <div class="src-page">
+                        <ul>
+                            <li>
+                                Home <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            </li>
+                            <li>
+                                Tours List <span></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <h1 class="h1">Tours List</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="src-ftco-search-tour py-5">
+        <div class="container py-5">
+            <div class="ftco-search">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form action="#" class="search-property-1">
+                            <div class="row no-gutters">
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Destination</label>
+                                        <div class="form-field">
+                                            <div class="icon"><span class="fa fa-search"></span></div>
+                                            <input type="text" class="form-control" placeholder="Search place">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Check-in date</label>
+                                        <div class="form-field">
+                                            <div class="icon"><span class="fa fa-calendar"></span></div>
+                                            <input type="text" class="form-control checkin_date" placeholder="Check In Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Check-out date</label>
+                                        <div class="form-field">
+                                            <div class="icon"><span class="fa fa-calendar"></span></div>
+                                            <input type="text" class="form-control checkout_date" placeholder="Check Out Date">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group p-4">
+                                        <label for="#">Price Limit</label>
+                                        <div class="form-field">
+                                            <div class="select-wrap">
+                                                <div class="icon"><span class="fa fa-chevron-down"></span></div>
+                                                <select class="form-control">
+                                                    <option value="">$100</option>
+                                                    <option value="">$10,000</option>
+                                                    <option value="">$50,000</option>
+                                                    <option value="">$100,000</option>
+                                                    <option value="">$200,000</option>
+                                                    <option value="">$300,000</option>
+                                                    <option value="">$400,000</option>
+                                                    <option value="">$500,000</option>
+                                                    <option value="">$600,000</option>
+                                                    <option value="">$700,000</option>
+                                                    <option value="">$800,000</option>
+                                                    <option value="">$900,000</option>
+                                                    <option value="">$1,000,000</option>
+                                                    <option value="">$2,000,000</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md d-flex">
+                                    <div class="form-group d-flex w-100">
+                                        <div class="form-field w-100 align-items-center d-flex">
+                                            <input type="submit" value="Search" class="align-self-stretch btn-search form-control btn btn-primary">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tour-packed py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 heading-section text-center">
+                    <span class="subheading">Destination</span>
+                    <h2 class="under-subheading mb-4">Tour Destination</h2>
+                </div>
+            </div>
+            <div id="parentHorizontalTab" class="horizon-tab-payment">
+                <div class="resp-tabs-container hor_1">
+                    <div>
+                        <div class="row d-flex">
+                            <div class="col-lg-4 col-md-4 animated">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="detail-tour-vt.html" class="src-packed vt-packed">
+                                        <span class="price-packed">$100/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">3 DAYS TOUR</p>
+                                        <h5 class="">Vung Tau Beach</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Beach,Banh Khot,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed nt-packed">
+                                        <span class="price-packed">$200/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">4 DAYS TOUR</p>
+                                        <h5 class="">Nha Trang Beach</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Beach,Sea Food,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 1
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed dl-packed">
+                                        <span class="price-packed">$300/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">4 DAYS TOUR</p>
+                                        <h5 class="">Dalat</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Hill,Photograph,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 1
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Mountains
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed vhl-packed">
+                                        <span class="price-packed">$1000/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">8 DAYS TOUR</p>
+                                        <h5 class="">Ha Long Bay</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Islands,Wonders,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed pq-packed">
+                                        <span class="price-packed">$100/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">3 DAYS TOUR</p>
+                                        <h5 class="">Phu Quoc</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Beach,Food,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed sapa-packed">
+                                        <span class="price-packed">$100/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">3 DAYS TOUR</p>
+                                        <h5 class="">Sapa</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Beach,Food,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="row d-flex">
+                            <div class="col-lg-4 col-md-4 animated fadeInUp">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed vt-packed">
+                                        <span class="price-packed">$100/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">3 DAYS TOUR</p>
+                                        <h5 class="">Vung Tau Beach</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Beach,Banh Khot,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated fadeInUp">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed nt-packed">
+                                        <span class="price-packed">$200/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">4 DAYS TOUR</p>
+                                        <h5 class="">Nha Trang Beach</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Beach,Sea Food,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 1
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated fadeInUp">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed dl-packed">
+                                        <span class="price-packed">$300/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">4 DAYS TOUR</p>
+                                        <h5 class="">Dalat</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Hill,Photograph,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 1
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Mountains
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated fadeInUp">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed vhl-packed">
+                                        <span class="price-packed">$1000/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">8 DAYS TOUR</p>
+                                        <h5 class="">Ha Long Bay</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Islands,Wonders,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 animated fadeInUp">
+                                <div class="packed-wrapper mb-4">
+                                    <a href="#" class="src-packed pq-packed">
+                                        <span class="price-packed">$100/person</span>
+                                    </a>
+                                    <div class="decription-packed">
+                                        <p class="subheading ">3 DAYS TOUR</p>
+                                        <h5 class="">Phu Quoc</h5>
+                                        <p class="specialties">
+                                            <span class="material-icons-outlined">
+                                                explore
+                                            </span>Beach,Food,Views
+                                        </p>
+                                        <ul class="list-decription">
+                                            <li>
+                                                <i class="flaticon-beer"></i> 2
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-legs"></i> 3
+                                            </li>
+                                            <li>
+                                                <i class="flaticon-wave"></i> Near Beach
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <ul class="resp-tabs-list hor_1">
+                        <!-- <li><i class="fa fa-angle-left"></i></li> -->
+                        <li class="active">1</li>
+                        <li>2</li>
+                        <li>3</li>
+                        <li>4</li>
+                        <li>5</li>
+                        <!-- <li><i class="fa fa-angle-right" aria-hidden="true"></i></li> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="intro py-5">
+        <div class="container py-5">
+            <div class="intro-wrapper py-5 text-center">
+                <div class="overlay">
+                </div>
+                <div class="row">
+                    <div class="col-md">
+                        <h3>WE ARE PACIFIC A TRAVEL AGENCY</h3>
+                        <p>We can manage your dream building A small river named Duden flows by their place</p>
+                        <a href="#" class="btn btn-primary">Ask For A Quote</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer-tour bg-img">
+        <div class="container">
+            <div class="row mb-5">
+                <div class="col-md border-right">
+                    <div class="footer-first">
+                        <h5>About</h5>
+                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                        <div class="list-icon">
+                            <ul>
+                                <li class="animated">
+                                    <a href="#">
+                                        <span class="fab fa-twitter"></span>
+                                    </a>
+                                </li>
+                                <li class="animated">
+                                    <a href="#">
+                                        <span class="fab fa-facebook-f"></span>
+                                    </a>
+                                </li>
+                                <li class="animated">
+                                    <a href="#">
+                                        <span class="fab fa-instagram"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md border-right">
+                    <div class="footer-grids">
+                        <h5>Infromation</h5>
+                        <ul>
+                            <li>
+                                <a href="#" class="py-2 d-block">Online Enquiry</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">General Enquiries</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Booking Conditions</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Privacy and Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Refund Policy</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Call Us</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md border-right">
+                    <div class="footer-grids">
+                        <h5>Experience</h5>
+                        <ul>
+                            <li>
+                                <a href="#" class="py-2 d-block">Adventure</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Hotel and Restaurant</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Beach</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Nature</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Camping</a>
+                            </li>
+                            <li>
+                                <a href="#" class="py-2 d-block">Party</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="footer-grids ends">
+                        <h5>Have a question?</h5>
+                        <ul>
+                            <li>
+                                <a href="#">
+                                    <span class="icon-footer material-icons-outlined">place</span>
+                                    <span class="text-footer">203 Fake St. Mountain View, San Francisco, California, USA</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="icon-footer fa fa-phone"></span>
+                                    <span class="text-footer">+2 392 3929 210</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    <span class="icon-footer fa fa-paper-plane"></span>
+                                    <span class="text-footer">info@yourdomain.com</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            Copyright ©2021 All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="#">Nghĩa Mặp</a>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="login" tabindex="-1" role="dialog" style="display: none;" aria-expanded="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Log In</h5>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="post">
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+                            <div class="input-place">
+                                <input name="username" placeholder="Username" class="form-control" type="text" required="" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <div class="input-place">
+                                <input id="input-password" type="password" placeholder="Password" name="password" class="form-control" required="" />
+                            </div>
+                            <div class="eye" onclick="eyepassword()">
+                                <span>
+                                    <i class="fa fa-eye-slash" id="eye-close"></i>
+                                    <i class="fa fa-eye" id="eye-open"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="btn-login">
+                            <input type="submit" class="form-control" value="Give Me One Click"></input>
+                        </div>
+                        <div class="remember">
+                            <div class="custom-control custom-checkbox mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+                                <label class="custom-control-label" for="customControlAutosizing">Remember me?</label>
+                            </div>
+                        </div>
+                        <div class="link-register">
+                            <p>Don't have an account?</p>
+                            <p>
+                                <a href="#" data-target="#register" data-toggle="modal">Register Now</a>
+                            </p>
+                        </div>
+                        <p class="text-center">(Or)</p>
+                        <div class="icon-social-network">
+                            <ul class="list-icon">
+                                <li>
+                                    <a href="#" class="fb">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="twt">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="gg">
+                                        <i class="fab fa-google-plus-g"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="register" tabindex="-1" role="dialog" style="display: none;" aria-expanded="false" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5>Register</h5>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="#">
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-user"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="name" placeholder="Your Name" class="form-control" type="text" required="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="email" placeholder="Email" class="form-control" type="email" required="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-lock"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="passsword" id="password" placeholder="PassWord" class="form-control" type="password" required="" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="icon">
+                                <i class="fa fa-check-circle"></i>
+                            </div>
+
+                            <div class="input-place">
+                                <input name="confirm-password" id="confirm-password" placeholder="Confirm Password" class="form-control" type="password" required="" />
+                            </div>
+                        </div>
+                        <div class="btn-login">
+                            <input type="submit" class="form-control" value="Give Me One Click"></input>
+                        </div>
+                        <div class="remember">
+                            <div class="custom-control custom-checkbox mr-sm-2">
+                                <input type="checkbox" class="custom-control-input" id="customControlAutosizing2">
+                                <label class="custom-control-label" for="customControlAutosizing2">I Accept to the Terms & Conditions</label>
+                            </div>
+                        </div>
+                        <div class="link-register">
+                            <p>Don't have an account?</p>
+                            <p>
+                                <a href="#" data-target="#register" data-toggle="modal">Register Now</a>
+                            </p>
+                        </div>
+                        <p class="text-center">(Or)</p>
+                        <div class="icon-social-network">
+                            <ul class="list-icon">
+                                <li>
+                                    <a href="#" class="fb">
+                                        <i class="fab fa-facebook-f"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="twt">
+                                        <i class="fab fa-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" class="gg">
+                                        <i class="fab fa-google-plus-g"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="topFunction()" id="to-top" title="Go to top" style="display: none;">
+        <span class="fas fa-level-up-alt"></span>
+    </button>
+    <script>
+        window.onscroll = function() {
+            scrollFunction();
+        }
+
+        function scrollFunction() {
+            var getValue = document.getElementsByClassName('animated');
+            var arr = [];
+
+            var x = document.documentElement.scrollTop;
+            var y = document.body.scrollTop;
+            var j = 0;
+            for (i = 0; i < getValue.length; i++) {
+                arr.push(getValue[i].classList);
+            }
+            for (i = 0; i < getValue.length; i++) {
+                if (j < 10000) {
+                    if (document.documentElement.scrollTop > j || document.body.scrollTop > j) {
+                        getValue[i + 1].classList.add('fadeInUp');
+                        j += 280;
+                        console.log(j);
+                    }
+                }
+            }
+        }
+    </script>
+    <script>
+        window.onscroll = function() {
+            scrollFunction();
+        };
+
+        function scrollFunction() {
+            if (document.documentElement.scrollTop > 200 || document.body.scrollTop > 200) {
+                document.getElementById('to-top').style.display = "block";
+            } else {
+                document.getElementById('to-top').style.display = "none";
+            }
+        }
+
+        function topFunction() {
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+        }
+    </script>
+    <script src="../js/owl.carousel.js"></script>
+    <script src="../js/bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/theme-change.js"></script>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/jquery.magnific-popup.min.js"></script>
+    <link rel="stylesheet" href="../css/magnific-popup.css">
+
+
+    <script src="../js/easyResponsiveTab.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#parentHorizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion
+                width: 'auto', //auto or any width like 600px
+                fit: true, // 100% fit in a container
+                tabidentify: 'hor_1', // The tab groups identifier
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+.resp-accordion {
+    display: none;
+}
+
+.resp-tab-content {
+    display: none;
+}
+
+.resp-tab-content-active {
+    display: block;
+    animation-name: fadeRtoL;
+    animation-duration: .3s;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeRtoL;
+    -webkit-animation-duration: .3s;
+    -webkit-animation-fill-mode: both;
+}
+
+.resp-tabs-list {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+.resp-tabs-list::after,
+.resp-tabs-list::before {
+    position: absolute;
+    height: 3px;
+    width: 3px;
+    color: black;
+    cursor: pointer;
+}
+
+.resp-tabs-list::after {
+    content: '«';
+    left: 38%;
+    top: 3;
+}
+
+.resp-tabs-list::before {
+    content: '»';
+    right: 39%;
+    top: 3;
+}
+
+.resp-tabs-list li {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    border-color: transparent!important;
+    border-radius: 50%;
+    padding: 3 10px;
+}
