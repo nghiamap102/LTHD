@@ -39,15 +39,18 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'rest_framework',
+    'oauth2_provider',
+    'drf_yasg',
     'django.contrib.humanize',
+    'corsheaders'
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': '20',
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
-    # )
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+    )
 }
 
 ROOT_URLCONF = 'tourmanagement.urls'
@@ -60,7 +63,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
+
+CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'tourmanagement.urls'
 

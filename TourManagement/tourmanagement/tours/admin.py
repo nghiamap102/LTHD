@@ -16,20 +16,25 @@ class ToursTagInline(admin.TabularInline):
 class ToursDetailHotelInline(admin.TabularInline):
     model = ToursDetail.hotel.through
 
+
 class ToursDetailTransportInline(admin.TabularInline):
     model = ToursDetail.transport.through
 
+
 class TourTotalAdmin(admin.ModelAdmin):
+
     list_display = ['id', 'name', 'created_date', 'count', 'active', 'get_tags']
     search_fields = ['id', 'name', 'tags__name']
     list_filter = ['name', 'active', 'tags__name']
-    readonly_fields = ['picture']
+    readonly_fields = ['picture', 'count']
     inlines = [ToursTagInline, ]
+
 
     def picture(self, tours):
         return mark_safe(
             "<img src = /static/{img_url} alt = '{alt}' width='120px'/>"
                 .format(img_url=tours.imageTours.name, alt=tours.name))
+
 
 class TourDetailForm(forms.ModelForm):
     content = forms.CharField(widget=CKEditorUploadingWidget)
@@ -43,7 +48,7 @@ class TourDetailAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'timestart', 'timefinish', 'vat', 'price', 'get_hotels']
     search_fields = ['id', 'name', 'price']
     list_filter = ['id', 'name', 'price', 'hotel__name']
-    inlines = [ToursDetailHotelInline,ToursDetailHotelInline]
+    inlines = [ToursDetailTransportInline, ToursDetailHotelInline]
     readonly_fields = ['picture']
 
     def picture(self, toursdetail):
@@ -56,6 +61,7 @@ class TourDetailInline(admin.StackedInline):
     model = ToursDetail
     fk_name = 'tours'
 
+
 class TourInline(admin.StackedInline):
     inlines = (TourDetailInline)
 
@@ -65,17 +71,17 @@ class ToursAppAdmin(admin.AdminSite):
 
     def get_urls(self):
         return [
-                   path('tours_stats/', self.course_stats)
+                   path('tours_stats/', self.tours_stats)
                ] + super().get_urls()
 
-    def course_stats(self, request):
-        tours_count = ToursTotal.objects.count()
-        stats = ToursTotal.objects.annotate(tours_count=Count('tours')).values("id", "name", "tours_count")
+    def tours_stats(self, request):
+        tours_detail_count = ToursDetail.objects.count()  # đếm số tour chi tiết
+        stats = ToursTotal.objects.annotate(tours_detail_count=Count('tours')).values("id", "name",
+                                                                                      "tours_detail_count")
         return TemplateResponse(request, 'admin/course-stats.html', {
-            'tours_count': tours_count,
+            'tours_detail_count': tours_detail_count,
             'stats': stats
         })
-
 
 
 # newss

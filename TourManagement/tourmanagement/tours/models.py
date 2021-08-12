@@ -48,6 +48,9 @@ class ToursTotal(ItemBase):
     def __str__(self):
         return self.name
 
+    def count(self):
+        return ToursDetail.objects.filter(active=True).count()
+
     def get_tags(self):
         return "\n".join([p.name for p in self.tags.all()])
 

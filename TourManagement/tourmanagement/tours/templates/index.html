@@ -1,10 +1,912 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>helo {{ name}}</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block content %}
+    <div class="main-top-video js-auto-height">
+        <div class="overlay">
+        </div>
+        <div class="container">
+            <div class="row align-items-center no-gutters">
+                <div class="col-md-7 animated fadeInUp text-left">
+                    <span class="subheading">Welcome to Stomy Tours</span>
+                    <h1>Discover Your Favorite Place with Us</h1>
+                    <p>Full experience at an affordable price</p>
+                </div>
+                <a href="https://vimeo.com/197757517" class="video-ads popup-zoom-video d-flex align-items-center ml-auto">
+                    <span class="material-icons-outlined">
+                        play_circle
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+<!--    <section class="ftco-section">-->
+<!--        <div class="container">-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-12">-->
+<!--                    <div class="ftco-search">-->
+<!--                        <div class="row">-->
+<!--                            <div class="col-md-12 nav-link-wrapper">-->
+<!--                                <div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">-->
+<!--                                    <a class="nav-link mr-md-1 active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Search Tour</a>-->
+<!--                                    <a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Hotel</a>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-12 tab-wrapper">-->
+<!--                                <div class="tab-content" id="v-pills-tabContent">-->
+<!--                                    <div class="tab-pane search-tour fade active show" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">-->
+<!--                                        <form action="" class="search-property-1">-->
+<!--                                            <div class="row no-gutters">-->
+<!--                                                <div class="col-md d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Destination</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="icon"><span class="fa fa-search"></span></div>-->
+<!--                                                            <input type="text" class="form-control" name="kw" placeholder="Search place">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-md d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Check-in date</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="icon"><span class="fa fa-calendar"></span></div>-->
+<!--                                                            <input type="text" class="form-control checkin_date" name="date_checkin" placeholder="Check In Date">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-md d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Check-out date</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="icon"><span class="fa fa-calendar"></span></div>-->
+<!--                                                            <input type="text" class="form-control checkout_date" name="date_checkout" placeholder="Check Out Date">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-md d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Price Limit</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="select-wrap">-->
+<!--                                                                <div class="icon"><span class="fa fa-chevron-down"></span></div>-->
+<!--                                                                <select class="form-control">-->
+<!--                                                                    <option value="">$100</option>-->
+<!--                                                                    <option value="">$10,000</option>-->
+<!--                                                                    <option value="">$50,000</option>-->
+<!--                                                                    <option value="">$100,000</option>-->
+<!--                                                                    <option value="">$200,000</option>-->
+<!--                                                                    <option value="">$300,000</option>-->
+<!--                                                                    <option value="">$400,000</option>-->
+<!--                                                                    <option value="">$500,000</option>-->
+<!--                                                                    <option value="">$600,000</option>-->
+<!--                                                                    <option value="">$700,000</option>-->
+<!--                                                                    <option value="">$800,000</option>-->
+<!--                                                                    <option value="">$900,000</option>-->
+<!--                                                                    <option value="">$1,000,000</option>-->
+<!--                                                                    <option value="">$2,000,000</option>-->
+<!--                                                                </select>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-md d-flex">-->
+<!--                                                    <div class="form-group d-flex w-100">-->
+<!--                                                        <div class="form-field w-100 align-items-center d-flex">-->
+<!--                                                            <input type="submit" value="Search" class="align-self-stretch btn-search form-control btn btn-primary">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+<!--                                    <div class="tab-pane search-hotel fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">-->
+<!--                                        <form action="#" class="search-property-1">-->
+<!--                                            <div class="row no-gutters">-->
+<!--                                                <div class="col-lg d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Destination</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="icon"><span class="fa fa-search"></span></div>-->
+<!--                                                            <input  type="text" class="form-control" name="kw" value="" placeholder="Search place">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-lg d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Check-in date</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="icon"><span class="fa fa-calendar"></span></div>-->
+<!--                                                            <input type="text" class="form-control checkin_date" name="date_checkin" placeholder="Check In Date">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-lg d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Check-out date</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="icon"><span class="fa fa-calendar"></span></div>-->
+<!--                                                            <input type="text" class="form-control checkout_date" name="date_checkout" placeholder="Check Out Date">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-lg d-flex">-->
+<!--                                                    <div class="form-group p-4">-->
+<!--                                                        <label for="">Price Limit</label>-->
+<!--                                                        <div class="form-field">-->
+<!--                                                            <div class="select-wrap">-->
+<!--                                                                <div class="icon"><span class="fa fa-chevron-down"></span></div>-->
+<!--                                                                <select name="" id="" class="form-control">-->
+<!--                                                                    <option value="">$100</option>-->
+<!--                                                                    <option value="">$10,000</option>-->
+<!--                                                                    <option value="">$50,000</option>-->
+<!--                                                                    <option value="">$100,000</option>-->
+<!--                                                                    <option value="">$200,000</option>-->
+<!--                                                                    <option value="">$300,000</option>-->
+<!--                                                                    <option value="">$400,000</option>-->
+<!--                                                                    <option value="">$500,000</option>-->
+<!--                                                                    <option value="">$600,000</option>-->
+<!--                                                                    <option value="">$700,000</option>-->
+<!--                                                                    <option value="">$800,000</option>-->
+<!--                                                                    <option value="">$900,000</option>-->
+<!--                                                                    <option value="">$1,000,000</option>-->
+<!--                                                                    <option value="">$2,000,000</option>-->
+<!--                                                                </select>-->
+<!--                                                            </div>-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-lg d-flex">-->
+<!--                                                    <div class="form-group d-flex w-100 border-0">-->
+<!--                                                        <div class="form-field w-100 align-items-center d-flex">-->
+<!--                                                            <input type="submit" value="Search" class="align-self-stretch btn-search form-control btn btn-primary">-->
+<!--                                                        </div>-->
+<!--                                                    </div>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </form>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+     <form action="">
+                <div class="row pb-5">
+                    <div class="col-md-11">
+                        <input class="form-control" name="kw" type="text" value="Nhập từ tìm kiếm ..." placeholder="Nhập từ tìm kiếm ..."/>
+                    </div>
+                    <div>
+                        <input type="submit" value="Search" class="btn btn-primary"/>
+                    </div>
+                </div>
+            </form>
+    <div class="service-section py-5">
+        <div class="container py-5">
+            <div class="row d-flex align-items-center">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12 d-flex animated">
+                            <div class="service-1 banner1">
+                                <div class="icon-flaticon">
+                                    <i class="flaticon-paragliding"></i>
+                                </div>
+                                <div class="body">
+                                    <h3 class="mb-3">Activities</h3>
+                                    <p>Organize healthy sightseeing and picnic activities</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 d-flex animated">
+                            <div class="service-1 banner2">
+                                <div class="icon-flaticon">
+                                    <i class="flaticon-destination"></i>
+                                </div>
+                                <div class="body">
+                                    <h3 class="mb-3">Travel Arrangements</h3>
+                                    <p>The trip is arranged flexibly and professionally according to the needs of the guests</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 d-flex animated">
+                            <div class="service-1 banner3">
+                                <div class="icon-flaticon">
+                                    <i class="flaticon-map"></i>
+                                </div>
+                                <div class="body">
+                                    <h3 class="mb-3">Location Manager</h3>
+                                    <p>The place is strictly managed and discreet</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12 d-flex animated">
+                            <div class="service-1 banner4">
+                                <div class="icon-flaticon">
+                                    <i class="flaticon-tour-guide"></i>
+                                </div>
+                                <div class="body">
+                                    <h3 class="mb-3">Private Guide</h3>
+                                    <p>there are tall and handsome six pack tour guides</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 content-service">
+                    <div class="content-service-wrapper">
+                        <span class="subheading">Welcome to Stomy Tours</span>
+                        <h2 class="under-subheading">It's time to start your adventure</h2>
+                        <p class="text-p">A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                        <p class="text-p">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean. A small river
+                            named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                        <a href="#" class="btn btn-primary py-3 px-4">Search Destination</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tours-remaining">
+        <div class="container py-3">
+            <div class="heading-tours text-center">
+                <span class="subheading">Tormy Provide Places</span>
+                <h2 class="under-subheading">Select Your Destination</h2>
+            </div>
+        </div>
+        <div class="container container2 ">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="carousel-tours owl-carousel owl-theme animated owl-loaded owl-drag">
+                        {% for des in destination %}
+                        {% load static %}
+                        <div class="item">
+                            <div class="card-tour-remaining">
+                                <a href="#" class="card-item vt">
+                                    <div class="text">
+
+                                        <h3>{{des.name}}</h3>
+                                        <span>8 Tour</span>
+<!--                                        <span class="tags">{{tags}}</span>-->
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card-tour-remaining">
+                                <a href="#" class="card-item nt">
+                                    <h3>{{des.name}}</h3>
+                                    <span>12 Tour</span>
+<!--                                        <span class="tags">{{tags}}</span>-->
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card-tour-remaining">
+                                <a href="#" class="card-item dl">
+                                    <h3>{{ des.name }}</h3>
+                                    <span>4 Tour</span>
+<!--                                        <span class="tags">{{tags}}</span>-->
+
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card-tour-remaining">
+                                <a href="#" class="card-item vhl">
+                                    <h3>{{des.name}}</h3>
+                                    <span>8 Tour</span>
+<!--                                        <span class="tags">{{tags}}</span>-->
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card-tour-remaining">
+                                <a href="#" class="card-item pq">
+                                    <h3>{{des.name}}</h3>
+                                    <span>6 Tour</span>
+<!--                                        <span class="tags">{{tags}}</span>-->
+                                </a>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="card-tour-remaining">
+                                <a href="#" class="card-item sp">
+                                    <h3>{{des.name}}</h3>
+                                    <span>0 Tour</span>
+<!--                                        <span class="tags">{{tags}}</span>-->
+                                </a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="datepicker datepicker-dropdown dropdown-menu datepicker-orient-left datepicker-orient-bottom" style="display: block; top: 113.8px; left: 451.6px;">
+
+        <div class="datepicker-days" style="display: block;">
+            <table class=" table-condensed">
+                <thead>
+                    <tr>
+                        <th class="prev" style="visibility: visible;">«</th>
+                        <th colspan="5" class="datepicker-switch">July 2021</th>
+                        <th class="next" style="visibility: visible;">»</th>
+                    </tr>
+                    <tr>
+                        <th class="dow">Su</th>
+                        <th class="dow">Mo</th>
+                        <th class="dow">Tu</th>
+                        <th class="dow">We</th>
+                        <th class="dow">Th</th>
+                        <th class="dow">Fr</th>
+                        <th class="dow">Sa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="old day">27</td>
+                        <td class="old day">28</td>
+                        <td class="old day">29</td>
+                        <td class="old day">30</td>
+                        <td class="day">1</td>
+                        <td class="day">2</td>
+                        <td class="day">3</td>
+                    </tr>
+                    <tr>
+                        <td class="day">4</td>
+                        <td class="day">5</td>
+                        <td class="day">6</td>
+                        <td class="day">7</td>
+                        <td class="day">8</td>
+                        <td class="day">9</td>
+                        <td class="day">10</td>
+                    </tr>
+                    <tr>
+                        <td class="day">11</td>
+                        <td class="day">12</td>
+                        <td class="day">13</td>
+                        <td class="day">14</td>
+                        <td class="day">15</td>
+                        <td class="day">16</td>
+                        <td class="day">17</td>
+                    </tr>
+                    <tr>
+                        <td class="day">18</td>
+                        <td class="day">19</td>
+                        <td class="day">20</td>
+                        <td class="day">21</td>
+                        <td class="day">22</td>
+                        <td class="day">23</td>
+                        <td class="day">24</td>
+                    </tr>
+                    <tr>
+                        <td class="day">25</td>
+                        <td class="day">26</td>
+                        <td class="day">27</td>
+                        <td class="day">28</td>
+                        <td class="day">29</td>
+                        <td class="day">30</td>
+                        <td class="day">31</td>
+                    </tr>
+                    <tr>
+                        <td class="new day">1</td>
+                        <td class="new day">2</td>
+                        <td class="new day">3</td>
+                        <td class="new day">4</td>
+                        <td class="new day">5</td>
+                        <td class="new day">6</td>
+                        <td class="new day">7</td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="7" class="today" style="display: none;">Today</th>
+                    </tr>
+                    <tr>
+                        <th colspan="7" class="clear" style="display: none;">Clear</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="datepicker-months" style="display: none;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th class="prev" style="visibility: visible;">«</th>
+                        <th colspan="5" class="datepicker-switch">2021</th>
+                        <th class="next" style="visibility: visible;">»</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7"><span class="month">Jan</span><span class="month">Feb</span><span class="month">Mar</span><span class="month">Apr</span><span class="month">May</span><span class="month">Jun</span><span class="month">Jul</span><span class="month">Aug</span>
+                            <span
+                                class="month">Sep</span><span class="month">Oct</span><span class="month">Nov</span><span class="month">Dec</span></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="7" class="today" style="display: none;">Today</th>
+                    </tr>
+                    <tr>
+                        <th colspan="7" class="clear" style="display: none;">Clear</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div class="datepicker-years" style="display: none;">
+            <table class="table-condensed">
+                <thead>
+                    <tr>
+                        <th class="prev" style="visibility: visible;">«</th>
+                        <th colspan="5" class="datepicker-switch">2020-2029</th>
+                        <th class="next" style="visibility: visible;">»</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="7"><span class="year old">2019</span><span class="year">2020</span><span class="year">2021</span><span class="year">2022</span><span class="year">2023</span><span class="year">2024</span><span class="year">2025</span><span class="year">2026</span>
+                            <span
+                                class="year">2027</span><span class="year">2028</span><span class="year">2029</span><span class="year new">2030</span></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th colspan="7" class="today" style="display: none;">Today</th>
+                    </tr>
+                    <tr>
+                        <th colspan="7" class="clear" style="display: none;">Clear</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div> -->
+
+    <div class="tour-packed py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 heading-section text-center">
+                    <span class="subheading">Destination</span>
+                    <h2 class="under-subheading mb-4">Tour Destination</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-4 col-md-4 animated">
+                    <div class="packed-wrapper mb-4">
+                        <a href="#" class="src-packed vt-packed">
+                            <span class="price-packed">$100/person</span>
+                        </a>
+                        <div class="decription-packed">
+                            <p class="subheading ">3 DAYS TOUR</p>
+                            <h5 class="">Vung Tau Beach</h5>
+                            <p class="specialties">
+                                <span class="material-icons-outlined">
+                                    explore
+                                </span>Beach,Banh Khot,Views
+                            </p>
+                            <ul class="list-decription">
+                                <li>
+                                    <i class="flaticon-beer"></i> 2
+                                </li>
+                                <li>
+                                    <i class="flaticon-legs"></i> 3
+                                </li>
+                                <li>
+                                    <i class="flaticon-wave"></i> Near Beach
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 animated">
+                    <div class="packed-wrapper mb-4">
+                        <a href="#" class="src-packed nt-packed">
+                            <span class="price-packed">$200/person</span>
+                        </a>
+                        <div class="decription-packed">
+                            <p class="subheading ">4 DAYS TOUR</p>
+                            <h5 class="">Nha Trang Beach</h5>
+                            <p class="specialties">
+                                <span class="material-icons-outlined">
+                                    explore
+                                </span>Beach,Sea Food,Views
+                            </p>
+                            <ul class="list-decription">
+                                <li>
+                                    <i class="flaticon-beer"></i> 1
+                                </li>
+                                <li>
+                                    <i class="flaticon-legs"></i> 2
+                                </li>
+                                <li>
+                                    <i class="flaticon-wave"></i> Near Beach
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 animated">
+                    <div class="packed-wrapper mb-4">
+                        <a href="#" class="src-packed dl-packed">
+                            <span class="price-packed">$300/person</span>
+                        </a>
+                        <div class="decription-packed">
+                            <p class="subheading ">4 DAYS TOUR</p>
+                            <h5 class="">Dalat</h5>
+                            <p class="specialties">
+                                <span class="material-icons-outlined">
+                                    explore
+                                </span>Hill,Photograph,Views
+                            </p>
+                            <ul class="list-decription">
+                                <li>
+                                    <i class="flaticon-beer"></i> 1
+                                </li>
+                                <li>
+                                    <i class="flaticon-legs"></i> 3
+                                </li>
+                                <li>
+                                    <i class="flaticon-wave"></i> Near Mountains
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 animated">
+                    <div class="packed-wrapper mb-4">
+                        <a href="#" class="src-packed vhl-packed">
+                            <span class="price-packed">$1000/person</span>
+                        </a>
+                        <div class="decription-packed">
+                            <p class="subheading ">8 DAYS TOUR</p>
+                            <h5 class="">Ha Long Bay</h5>
+                            <p class="specialties">
+                                <span class="material-icons-outlined">
+                                    explore
+                                </span>Islands,Wonders,Views
+                            </p>
+                            <ul class="list-decription">
+                                <li>
+                                    <i class="flaticon-beer"></i> 2
+                                </li>
+                                <li>
+                                    <i class="flaticon-legs"></i> 3
+                                </li>
+                                <li>
+                                    <i class="flaticon-wave"></i> Near Beach
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 animated">
+                    <div class="packed-wrapper mb-4">
+                        <a href="#" class="src-packed pq-packed">
+                            <span class="price-packed">$100/person</span>
+                        </a>
+                        <div class="decription-packed">
+                            <p class="subheading ">3 DAYS TOUR</p>
+                            <h5 class="">Phu Quoc</h5>
+                            <p class="specialties">
+                                <span class="material-icons-outlined">
+                                    explore
+                                </span>Beach,Food,Views
+                            </p>
+                            <ul class="list-decription">
+                                <li>
+                                    <i class="flaticon-beer"></i> 2
+                                </li>
+                                <li>
+                                    <i class="flaticon-legs"></i> 3
+                                </li>
+                                <li>
+                                    <i class="flaticon-wave"></i> Near Beach
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 animated">
+                    <div class="packed-wrapper mb-4">
+                        <a href="#" class="src-packed sapa-packed">
+                            <span class="price-packed">$100/person</span>
+                        </a>
+                        <div class="decription-packed">
+                            <p class="subheading ">3 DAYS TOUR</p>
+                            <h5 class="">Sapa</h5>
+                            <p class="specialties">
+                                <span class="material-icons-outlined">
+                                    explore
+                                </span>Beach,Food,Views
+                            </p>
+                            <ul class="list-decription">
+                                <li>
+                                    <i class="flaticon-beer"></i> 2
+                                </li>
+                                <li>
+                                    <i class="flaticon-legs"></i> 3
+                                </li>
+                                <li>
+                                    <i class="flaticon-wave"></i> Near Beach
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tour-about-video">
+        <div class="container py-5">
+            <div class="row align-items-center py-4">
+                <div class="col-md-12 align-items-center wrapper-video justify-content-center d-flex">
+                    <a href="https://vimeo.com/197757517" class="video-ads popup-zoom-video">
+                        <span class="material-icons-outlined">
+                            <span class="far fa-play-circle"></span>
+                        </span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tour-about-content">
+        <div class="container">
+            <div class="row d-flex">
+                <div class="col-md-6 img-about-wrapper d-flex align-items-stretch">
+                    <div class="img-about d-flex align-content-center justify-content-center">
+                    </div>
+                </div>
+                <div class="col-md-6 content-about-wrapper py-5 pl-5 align-content-center">
+                    <div class="content-about">
+                        <span class="subheading">About Us</span>
+                        <h2 class="under-subheading">Make Your Tour Memorable and Safe With Us</h2>
+                        <p class="text-p">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                        <a href="#" class="btn btn-primary">
+                            Book Your Destination
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="feedback py-5">
+        <div class="overlay1"></div>
+        <div class="container py-5">
+            <div class="row animated text-center pb-5">
+                <div class="col-md text-center animated">
+                    <span class="heading">Testimonial</span>
+                    <h2>Tourist Feedback</h2>
+                </div>
+            </div>
+            <div class="row animated">
+                <div class="col-md-12">
+                    <div class="carousel-testimonial-content owl-carousel owl-drag owl-theme owl-loaded">
+                        <div class="item">
+                            <div class="testimonial-content">
+                                <div class="rate-start">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <div class="bottom-info d-flex align-items-center">
+                                    <div class="img-testimonial">
+                                    </div>
+                                    <div class="infor">
+                                        <p class="name">Nghĩa </p>
+                                        <span class="profession">Student</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimonial-content">
+                                <div class="rate-start">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <div class="bottom-info d-flex align-items-center">
+                                    <div class="img-testimonial">
+                                    </div>
+                                    <div class="infor">
+                                        <p class="name">Nghĩa</p>
+                                        <span class="profession">Student</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimonial-content">
+                                <div class="rate-start">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <div class="bottom-info d-flex align-items-center">
+                                    <div class="img-testimonial">
+                                    </div>
+                                    <div class="infor">
+                                        <p class="name">Nghĩa</p>
+                                        <span class="profession">Student</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimonial-content">
+                                <div class="rate-start">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <div class="bottom-info d-flex align-items-center">
+                                    <div class="img-testimonial">
+                                    </div>
+                                    <div class="infor">
+                                        <p class="name">Nghĩa</p>
+                                        <span class="profession">Student</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimonial-content">
+                                <div class="rate-start">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <div class="bottom-info d-flex align-items-center">
+                                    <div class="img-testimonial">
+                                    </div>
+                                    <div class="infor">
+                                        <p class="name">Nghĩa</p>
+                                        <span class="profession">Student</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="testimonial-content">
+                                <div class="rate-start">
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                                <div class="bottom-info d-flex align-items-center">
+                                    <div class="img-testimonial">
+                                    </div>
+                                    <div class="infor">
+                                        <p class="name">Nghĩa</p>
+                                        <span class="profession">Student</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="blog py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 animated text-center">
+                    <span class="subheading">Our Blog</span>
+                    <h2 class="under-subheading">Recent Post</h2>
+                </div>
+            </div>
+            <div class="row pt-5">
+                <div class="col-md-4 animated">
+                    <div class="card-blog">
+                        <a href="#" class="img-blog img1">
+                            <div class="blog-text">
+                                <div class="time">
+                                    <div class="fist">
+                                        <span>11</span>
+                                    </div>
+                                    <div class="twice">
+                                        <span class="year">2021</span>
+                                        <span class="month">September</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="bottom-blog">
+                            <h5>
+                                <a href="#">
+                                    The place most foreigners visit
+                                </a>
+                            </h5>
+                            <a href="#" class="btn btn-primary twice-src">
+                                Read more
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated">
+                    <div class="card-blog">
+                        <a href="#" class="img-blog img2">
+                            <div class="blog-text">
+                                <div class="time">
+                                    <div class="fist">
+                                        <span>29</span>
+                                    </div>
+                                    <div class="twice">
+                                        <span class="year">2021</span>
+                                        <span class="month">January</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="bottom-blog">
+                            <h5>
+                                <a href="#" class="first-src">
+                                    The most people visited place
+                                </a>
+                            </h5>
+                            <a href="#" class="btn btn-primary twice-src">
+                                Read more
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 animated">
+                    <div class="card-blog">
+                        <a href="#" class="img-blog img3">
+                            <div class="blog-text">
+                                <div class="time">
+                                    <div class="fist">
+                                        <span>10</span>
+                                    </div>
+                                    <div class="twice">
+                                        <span class="year">2021</span>
+                                        <span class="month">July</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="bottom-blog">
+                            <h5>
+                                <a href="#">
+                                    Where the most couples visited
+                                </a>
+                            </h5>
+                            <a href="#" class="btn btn-primary twice-src">
+                                Read more
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
