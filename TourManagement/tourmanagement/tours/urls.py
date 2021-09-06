@@ -5,15 +5,20 @@ from rest_framework.routers import DefaultRouter
 from .admin import admin_site
 
 router = DefaultRouter()
-router.register('tours', views.ToursTotalViewSet)
-router.register('hotel', views.HotelViewSet)
-router.register('users', views.UserViewSet)
-router.register('tousdetail', views.ToursDetailViewSet)
+router.register('tours', views.ToursTotalViewSet, basename='tours')
+router.register('hotel', views.HotelViewSet, basename='hotel')
+router.register('users', views.UserViewSet, basename='users')
+router.register('tousdetail', views.ToursDetailViewSet, basename='tousdetail')
 # router.register('employee', views.UserViewSet)
 
 urlpatterns = [
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
     path('admin/',admin_site.urls),
-    path('',views.index, name= 'index'),
+    # path('',views.index, name= 'index'),
+    # path('list_tour/',views.list_tour,name ='list_tour'),
+    # path('tour_detail/',views.tour_detail , name = 'tour_detail'),
+    # path('booking/' , views , name=''booking ),
+    # path('login/',views.login , name = 'login'),
+    # path('contact/',views.contact , name= 'contact' ),
     # path('tour/' ,admin_site.urls)
 ]

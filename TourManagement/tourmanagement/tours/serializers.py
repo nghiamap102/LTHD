@@ -6,6 +6,9 @@ class UserSerializers(ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'first_name', 'last_name', 'email', 'username', 'password', 'avatar']
+        extra_kwargs = {
+            'password': {'write_only': 'true'}
+        }
 
     def create(self, validated_data):
         user = User(**validated_data)
@@ -33,7 +36,7 @@ class TourTotalSerializers(ModelSerializer):
 class TourDetailSerializers(ModelSerializer):
     class Meta:
         model = ToursDetail
-        fields = ['tourid', 'name', 'timestart', 'timefinish', 'price', 'vat']
+        fields = ['id', 'name', 'timestart', 'timefinish', 'price', 'vat','tours']
 
 
 class HotelSerializers(ModelSerializer):
@@ -45,8 +48,15 @@ class HotelSerializers(ModelSerializer):
 class TransportSerializers(ModelSerializer):
     class Meta:
         model = Transport
-        field = ['id', 'name', 'price']
+        fields = ['id', 'name', 'price']
+
+# class CmtSerializers(ModelSerializer):
+#     class Meta:
+#         models = Comment
+#         fields = ['id', 'customer' ,  'cmt' , 'toursdetail','created_date']
+#
+
 # class NewsSerializers(ModelSerializer):
 #     class Meta:
 #         model = news
-#         fỉelds = ['id', 'decription']
+#         fỉelds = ['id', 'name' , 'created_date' , 'content','imageNews']

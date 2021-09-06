@@ -50,10 +50,10 @@
                             <a class="nav-link" href="home.html">Home</a>
                         </li>
                         <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-                        <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li>
+                        <li class="nav-item"><a href="{% url 'list_tour' %}" class="nav-link">Destination</a></li>
                         <li class="nav-item"><a href="hotel.html" class="nav-link">Hotel</a></li>
                         <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
-                        <li class="nav-item"><a href="contact.html" class="nav-link">Contact</a></li>
+                        <li class="nav-item"><a href="{% url 'contact' %}" class="nav-link">Contact</a></li>
                     </ul>
                 </div>
                 <!-- <div class="navbar-dialog-option">
@@ -450,11 +450,24 @@
             document.body.scrollTop = 0;
         }
     </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#parentHorizontalTab').easyResponsiveTabs({
+                type: 'default', //Types: default, vertical, accordion
+                width: 'auto', //auto or any width like 600px
+                fit: true, // 100% fit in a container
+                tabidentify: 'hor_1', // The tab groups identifier
+            });
+        });
+    </script>
    {% load static %}
    <script  src="{% static '/assert/js/owl.carousel.js' %}"></script>
    <script  src="{% static '/assert/js/bootstrap-4.3.1-dist/js/bootstrap.min.js' %}"></script>
    <script  src="{% static '/assert/js/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' %}"></script>
    <script src="{% static '/assert/js/jquery-3.6.0.min.js'%}"></script>
    <script src="{% static '/assert/js/jquery.magnific-popup.min.js' %}"></script>
+   <script src="{% static '/assert/js/easyResponsiveTab.js' %}"></script>
+
 </body>
 </html>

@@ -12,6 +12,8 @@ from django.urls import path
 class ToursTagInline(admin.TabularInline):
     model = ToursTotal.tags.through
 
+class TourDetailInline(admin.TabularInline):
+    model = ToursDetail
 
 class ToursDetailHotelInline(admin.TabularInline):
     model = ToursDetail.hotel.through
@@ -20,6 +22,18 @@ class ToursDetailHotelInline(admin.TabularInline):
 class ToursDetailTransportInline(admin.TabularInline):
     model = ToursDetail.transport.through
 
+class TourDetailInline(admin.StackedInline):
+    model = ToursDetail
+
+
+# class CmtInLine(admin.StackedInline):
+#     model = Comment
+
+
+class News(admin.ModelAdmin):
+    list_display = ['id','name','created_date','active']
+    search_fields = ['id','name']
+    readonly_fields = ['picture']
 
 class TourTotalAdmin(admin.ModelAdmin):
 
@@ -27,12 +41,12 @@ class TourTotalAdmin(admin.ModelAdmin):
     search_fields = ['id', 'name', 'tags__name']
     list_filter = ['name', 'active', 'tags__name']
     readonly_fields = ['picture', 'count']
-    inlines = [ToursTagInline, ]
+    inlines = [ToursTagInline,TourDetailInline ]
 
 
     def picture(self, tours):
         return mark_safe(
-            "<img src = /static/{img_url} alt = '{alt}' width='120px'/>"
+            "<img src = /{img_url} alt = '{alt}' width='120px'/>"
                 .format(img_url=tours.imageTours.name, alt=tours.name))
 
 
@@ -45,7 +59,7 @@ class TourDetailForm(forms.ModelForm):
 
 
 class TourDetailAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'timestart', 'timefinish', 'vat', 'price', 'get_hotels']
+    list_display = ['id', 'name', 'timestart', 'timefinish', 'price', 'get_transport', 'get_hotels']
     search_fields = ['id', 'name', 'price']
     list_filter = ['id', 'name', 'price', 'hotel__name']
     inlines = [ToursDetailTransportInline, ToursDetailHotelInline]
@@ -57,17 +71,10 @@ class TourDetailAdmin(admin.ModelAdmin):
                 .format(img_url=toursdetail.imageHotel.name, alt=toursdetail.name))
 
 
-class TourDetailInline(admin.StackedInline):
-    model = ToursDetail
-    fk_name = 'tours'
-
-
-class TourInline(admin.StackedInline):
-    inlines = (TourDetailInline)
 
 
 class ToursAppAdmin(admin.AdminSite):
-    site_header = 'HE THON QUAN LI DU LỊCH'
+    site_header = 'HE THONG QUAN LI DU LỊCH'
 
     def get_urls(self):
         return [

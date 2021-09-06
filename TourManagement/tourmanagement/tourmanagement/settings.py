@@ -41,8 +41,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'oauth2_provider',
     'drf_yasg',
-    'django.contrib.humanize',
-    'corsheaders'
+    'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -53,7 +52,10 @@ REST_FRAMEWORK = {
     )
 }
 
-ROOT_URLCONF = 'tourmanagement.urls'
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+}
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -63,9 +65,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
+    'corsheaders.middleware.CorsMiddleware',
 ]
-
 CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'tourmanagement.urls'
@@ -103,9 +104,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'tours.User'
 
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
@@ -141,7 +139,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = '%s/tours/static' % BASE_DIR
+MEDIA_ROOT = '%s/tours/' % BASE_DIR
 CKEDITOR_UPLOAD_PATH = 'tours/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
