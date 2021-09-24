@@ -9,37 +9,13 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from .models import *
 from .serializers import *
+from django.db.models import F
 
 
 # generics.CreateAPIView,  # tao
 # generics.RetrieveAPIView,generics.UpdateAPIView):  # lay thong tin
-# class UserViewSet(viewsets.ModelViewSet):
-#     queryset = User.objects.all()
-#     serializer_class = UserSerializers
-#     parser_classes = [MultiPartParser, ]
-#     # swagger_schema = None
-#
-#     def get_permissions(self):
-#         if self.action == 'current_user':
-#             return [permissions.IsAuthenticated()]
-#
-#         return [permissions.AllowAny()]
-#
-#     @action(methods=['get'], detail=False, url_path='current-user')
-#     def current_user(self, request):
-#         return Response(self.serializer_class(request.user).data)
 
-
-    # def get_permissions(self):
-    #     if self.action == 'list':
-    #         return [permissions.AllowAny()]
-    #     return [permissions.IsAuthenticated()]
-
-
-class UserViewSet(viewsets.ViewSet,
-                  generics.CreateAPIView,
-                  generics.ListAPIView,  # tao
-                  generics.RetrieveAPIView):  # lay thong tin
+class UserViewSet(viewsets.ViewSet, generics.ListAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializers
     parser_classes = [MultiPartParser]
@@ -55,148 +31,148 @@ class UserViewSet(viewsets.ViewSet,
         return Response(self.serializer_class(request.user).data)
 
 
-
-# class NewsViesSet(viewsets.ModelViewSet):
-#     queryset = News.objects.filter(active=True)
-#     serializer_class = NewsSerializers
-
-class TagViewSet(viewsets.ModelViewSet):
-    queryset = Tag.objects.all()
-    serializer_class = TagSerializers
-
-    def get_permissions(self):
-        if self.action == 'list':
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated()]
-
 class ToursTotalPagination(PageNumberPagination):
     page_size = 9
 
 
-class ToursTotalViewSet(viewsets.ModelViewSet):
-    queryset = ToursTotal.objects.filter(active=True)
+class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView):
+    queryset = ToursTotal.objects.all()
     serializer_class = TourTotalSerializers
-    pagination_class = ToursTotalPagination
-    # permission_classes = [permissions.IsAuthenticated]
 
-    @swagger_auto_schema(
-        operation_description='Add tags to a lesson',
-        responses={
-            status.HTTP_200_OK: TourTotalSerializers()
-        }
-    )
-    @action(methods=['post'], detail=True, url_path="hide-lesson", url_name="hide-lesson")
-    def hide_lesson(self, request, pk):
+    def get_permissions(self):
+        if self.action == 'add_tags':
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
+
+    def get_queryset(self):
+        courses = ToursTotal.objects.filter(active=True)
+        q = self.request.query_params.get("q")
+        if q is not None:
+            courses = courses.filter(name__contains=q)
+
+        return courses
+
+    @action(methods=['post'], detail=True, url_path="tags")  # add_tag
+    def add_tags(self, request):
         try:
-            l = ToursTotal.objects.get(pk=pk)
-            l.active = False
-            l.save()
-        except ToursTotal.DoesNotExits:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            tour = self.get_object()
+        except:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        else:
+            tags = request.data.get("tags")
+            if tags is not None:
+                for tag in tags:
+                    t, _ = Tag.objects.get_or_create(name=tag)
+                    tour.tags.add(t)
 
-        return Response(TourTotalSerializers(l, context={'request': request}).data,
+                tour.save()
+
+                return Response(TourTotalSerializers(tour).data, status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+    @action(methods=['get'], detail=True, url_path='details')  # detail
+    def get_details(self, request, pk):
+        details = ToursTotal.objects.get(pk=pk).details.filter(active=True)
+        # lessons = self.get_object().lessons.filter(active=True)
+
+        q = request.query_params.get('q')
+        if q is not None:
+            details = details.filter(name__icontains=q)
+
+        # tours_id = self.request.query_params.get("tours_id")  # tìm theo khóa ngoại
+        # if tours_id is not None:
+        #     details = details.filter(tours_id=tours_id)
+
+        return Response(TourDetailSerializers(details, many=True).data,
                         status=status.HTTP_200_OK)
 
-    # def get_permissions(self):
-    #     if self.action == 'list':
-    #         return [permissions.AllowAny()]
-    #     return [permissions.IsAuthenticated()]
 
-
-class ToursDetailViewSet(viewsets.ModelViewSet):
+class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView):
     queryset = ToursDetail.objects.filter(active=True)
     serializer_class = TourDetailSerializers
 
-    # def get_permissions(self):
-    #     if self.action == 'list':
-    #         return [permissions.AllowAny()]
-    #     return [permissions.IsAuthenticated()]
+    def get_permissions(self):
+        if self.action in ['add_cmt', 'like_action', 'rating_action']:
+            return [permissions.IsAuthenticated()]
+        return [permissions.AllowAny()]
+
+    # search
+    def get_queryset(self):
+        tour = ToursDetail.objects.filter(active=True)
+        kw = self.request.query_params.get('kw')
+        if kw is not None:
+            tour = tour.filter(name__contains=kw)
+
+        tour_id = self.request.query_params.get('tour_id')
+        if tour_id is not None:
+            tour = tour.filter(name__contains=tour_id)
+
+        return tour
+
+    @action(methods=['post'], detail=True, url_path='add-cmt')
+    def add_cmt(self, request, pk):
+        content = request.data.get('content')
+        if content:
+            c = Comment.objects.create(cmt=content,
+                                       tourdetail=self.get_object(),
+                                       customer=request.user)
+            return Response(CmtSerializers(c).data, status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+    @action(methods=['post'], detail=True, url_path='like')
+    def like_action(self, request, pk):
+        try:
+            action_type = request.data['type']
+        except IndexError | ValueError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            action = Action.objects.create(type=action_type, creator=request.user, tour=self.get_object())
+
+            return Response(ActionSerializer(action).data, status=status.HTTP_200_OK)
+
+    @action(methods=['post'], detail=True, url_path='rating')
+    def rating_action(self, request,pk):
+        try:
+            value = request.data['value']
+        except IndexError | ValueError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            rate = Rating.objects.create(rate=value, tour=self.get_object(), creator=request.user)
+        return Response(RatingSerializer(rate).data, status=status.HTTP_200_OK)
+
+    @action(methods=['get'], detail=True, url_path='views')
+    def inc_view(self, request,pk):
+        v, created = TourDetailViews.objects.get_or_create(tourdetail=self.get_object())
+        v.views = F('views') + 1
+        v.save()
+
+        v.refresh_from_db()
+        return Response(TourDetailViewSerializers(v).data, status=status.HTTP_200_OK)
+
+
+class CmtViewSet(viewsets.ModelViewSet):
+    queryset = Comment.objects.filter(active=True)
+    serializer_class = CmtSerializers
+    permissions = [permissions.IsAuthenticated]
+
+    def destroy(self, request, *args, **kwargs):
+        if request.user == self.get_object().customer:
+            return super().destroy(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
+    def partial_update(self, request, *args, **kwargs):
+        if request.user == self.get_object().customer:
+            return super().partial_update(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
 
 
 class HotelViewSet(viewsets.ModelViewSet):
     queryset = Hotel.objects.filter(active=True)
     serializer_class = HotelSerializers
 
-    def get_permissions(self):
-        if self.action == 'list':
-            return [permissions.AllowAny()]
-        return [permissions.IsAuthenticated()]
 
-
-# # class Feedback(viewsets.ModelViewSet):
-# #     queryset = Comment.objects.all()
-# #     serializer_class = CmtSerializers
-# #
-# #     def get_permissions(self):
-# #         if self.action == 'list':
-# #             return [permissions.AllowAny()]
-# #         return [permissions.IsAuthenticated()]
-# #
-#
-# def index(request):
-#     search = request.GET.get('kw')
-#
-#     # detail = ToursDetail.objects.filter(active=True)
-#
-#     destination = ToursTotal.objects.filter(active=True, name__icontains='D')
-#     fill = ToursDetail.objects.filter(name__icontains='DL')
-#     count_tour = fill.count()
-#     # hotel = Hotel.objects.filter(actice =True)
-#     # blog = Blog.objects.filter(active= True)
-#     # cmt = cmt.objects.filter(active=True)
-#     # tags = Tag.objects.filter()
-#
-#     context = {
-#         'destination': destination,
-#         'count_tour': count_tour
-#     }
-#
-#     return render(request, template_name='index.html', context=context)
-#
-#
-# def tourdetail(request):
-#     # tourdetail = ToursDetail.objects.filter(active= True)
-#     # search
-#     # register
-#     # cmt
-#
-#     return render(request, template_name='detail-tour-dl.html')
-#
-#
-# def contact(request):
-#     return render(request, template_name='contact.html')
-#
-#
-# def list_tour(request):
-#     # tour_id  =ToursDetail.objects.filter(pk=tourid)
-#     # page_number =
-#     # kw = request.GET.get('kw')
-#     # tag = ToursTotal.objects.filter(tag__name__contain ='kw')
-#     # name = ToursTotal.objects.filter(name__contain ='kw')
-#     return render(request, template_name='destination.html')
-#
-#
-# def tour_detail(request):
-#     return render(request, template_name='detail-tour-dl.html')
-#
-#
-# def booking(request):
-#     return render(request, template_name='booking.html')
-#
-#
-# def hotel(request):
-#     return render(request, template_name='hotel.html')
-#
-#
-# def blog(request):
-#     return render(request, template_name='blog.html')
-#
-#
-# def login(request):
-#     return render(request, template_name='login.html')
-
-# def tourdetail(request):
-#     return  render(request,template_name='tourdetail.html')
-#
-# def tourdetail(request):
-#     return  render(request,template_name='tourdetail.html')
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializers

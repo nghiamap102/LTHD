@@ -5,9 +5,10 @@ from rest_framework.routers import DefaultRouter
 from .admin import admin_site
 
 router = DefaultRouter()
-router.register('tours', views.ToursTotalViewSet, basename='tours')
+router.register('tours', views.TourTotalViewSet, basename='tours')
 router.register('hotel', views.HotelViewSet, basename='hotel')
 router.register('users', views.UserViewSet, basename='users')
+router.register('cmt', views.CmtViewSet, basename='cmt')
 router.register('tousdetail', views.ToursDetailViewSet, basename='tousdetail')
 # router.register('employee', views.UserViewSet)
 

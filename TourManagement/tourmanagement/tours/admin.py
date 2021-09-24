@@ -26,9 +26,19 @@ class TourDetailInline(admin.StackedInline):
     model = ToursDetail
 
 
-# class CmtInLine(admin.StackedInline):
-#     model = Comment
+class CmtInLine(admin.StackedInline):
+    model = Comment
 
+class TourDetailImgDetailInline(admin.StackedInline):
+    model = ImgDetail
+
+
+
+class CmtAdmin(admin.ModelAdmin):
+    # list_display = [field.name for field in Comment._meta.fields]
+    list_display = ["id" , "customer","details","created_date"]
+    list_filter = ["customer","details","created_date"]
+    search_fields = ["customer","details","created_date"]
 
 class News(admin.ModelAdmin):
     list_display = ['id','name','created_date','active']
@@ -37,12 +47,14 @@ class News(admin.ModelAdmin):
 
 class TourTotalAdmin(admin.ModelAdmin):
 
-    list_display = ['id', 'name', 'created_date', 'count', 'active', 'get_tags']
-    search_fields = ['id', 'name', 'tags__name']
-    list_filter = ['name', 'active', 'tags__name']
-    readonly_fields = ['picture', 'count']
+    list_display = ['id', 'name', 'created_date', 'active', 'image','count']
+    search_fields = ['id', 'name','tags']
+    list_filter = ['name', 'active','tags']
+    readonly_fields = ['picture','count']
     inlines = [ToursTagInline,TourDetailInline ]
 
+    def count(self,obj):
+        return obj.details.count()
 
     def picture(self, tours):
         return mark_safe(
@@ -59,18 +71,15 @@ class TourDetailForm(forms.ModelForm):
 
 
 class TourDetailAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'timestart', 'timefinish', 'price', 'get_transport', 'get_hotels']
+    list_display = ['id', 'name', 'timestart', 'timefinish', 'price','image']
     search_fields = ['id', 'name', 'price']
-    list_filter = ['id', 'name', 'price', 'hotel__name']
-    inlines = [ToursDetailTransportInline, ToursDetailHotelInline]
-    readonly_fields = ['picture']
+    list_filter = ['id', 'name', 'price']
+    inlines = [ToursDetailTransportInline, ToursDetailHotelInline,CmtInLine,TourDetailImgDetailInline]
 
     def picture(self, toursdetail):
         return mark_safe(
             "<img src = /static/{img_url} alt = '{alt}' width='120px'/>"
                 .format(img_url=toursdetail.imageHotel.name, alt=toursdetail.name))
-
-
 
 
 class ToursAppAdmin(admin.AdminSite):
@@ -90,22 +99,19 @@ class ToursAppAdmin(admin.AdminSite):
             'stats': stats
         })
 
+class UserAdmin(admin.ModelAdmin):
+    list_display = ["id", "first_name", "last_name", "username","is_superuser","is_staff" ,"date_joined","is_active"]
 
-# newss
-# class TourTotalForm(forms.ModelForm):
-#     description = forms.CharField(widget=CKEditorUploadingWidget)
-#
-#     class Meta:
-#         model = ToursTotal
-#         fields = '__all__'
 
 admin_site = ToursAppAdmin('myqldl')
 
-admin_site.register(User)
+admin_site.register(User,UserAdmin)
 admin_site.register(ToursTotal, TourTotalAdmin)
 admin_site.register(ToursDetail, TourDetailAdmin)
 admin_site.register(Hotel)
 admin_site.register(Tag)
+admin_site.register(ImgDetail)
+admin_site.register(Comment,CmtAdmin)
 admin_site.register(Transport)
 admin_site.register(Permission)
 
