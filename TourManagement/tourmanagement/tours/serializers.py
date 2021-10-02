@@ -1,8 +1,18 @@
 from rest_framework.serializers import ModelSerializer,SerializerMethodField
 from .models import *
+from rest_framework import serializers
 
 
 class UserSerializers(ModelSerializer):
+    avatar = SerializerMethodField()
+
+    def get_avatar(self, cmt):
+
+        avatar = cmt.avatar.name
+        path = 'http://127.0.0.1:8000/%s' % avatar
+
+        return path
+
     def create(self, validated_data):
         user = User(**validated_data)
         user.set_password(user.password)
@@ -13,7 +23,7 @@ class UserSerializers(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "username", "password", "email", "is_superuser", "is_staff",
-                  "date_joined"]
+                  "date_joined",'avatar']
 
         extra_kwargs = {
             'password': {'write_only': 'true'}
@@ -31,11 +41,12 @@ class TourTotalSerializers(ModelSerializer):
 
     class Meta:
         model = ToursTotal
-        fields = ['id', 'name', 'image', 'tags']
+        fields = ['id', 'name', 'image', 'tags','created_date']
 
 
 class TourDetailSerializers(ModelSerializer):
     image = SerializerMethodField()
+    imagedetail = serializers.StringRelatedField(many=True)
 
     def get_image(self, course):
         name = course.image.name
@@ -45,13 +56,24 @@ class TourDetailSerializers(ModelSerializer):
 
     class Meta:
         model = ToursDetail
-        fields = ['id', 'name','image', 'timestart', 'timefinish', 'price', 'vat', 'tours']
+        fields = ['id', 'name','image', 'timestart', 'timefinish', 'price','decription', 'vat', 'tours','imagedetail','hotel']
+
 
 
 class CmtSerializers(ModelSerializer):
+    customer = SerializerMethodField()
+
+    def get_customer(self,cmt):
+        name = cmt.customer.username
+        id = cmt.customer.id
+        avatar = cmt.customer.avatar.name
+        avatar = 'http://127.0.0.1:8000/%s' % avatar
+        fname = cmt.customer.first_name
+        lname = cmt.customer.last_name
+        return id , name , avatar,fname,lname
     class Meta:
         model = Comment
-        fields = ["id", "customer", "tourdetail", "created_date"]
+        fields = ["id","content", "customer", "tourdetail", "created_date"]
 
 
 class ActionSerializer(ModelSerializer):

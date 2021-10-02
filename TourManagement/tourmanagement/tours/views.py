@@ -7,6 +7,9 @@ from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import APIView
+from django.conf import settings
+
 from .models import *
 from .serializers import *
 from django.db.models import F
@@ -32,12 +35,13 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class ToursTotalPagination(PageNumberPagination):
-    page_size = 9
+    page_size = 6
 
 
-class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView):
+class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView):
     queryset = ToursTotal.objects.all()
     serializer_class = TourTotalSerializers
+    pagination_class = ToursTotalPagination
 
     def get_permissions(self):
         if self.action == 'add_tags':
@@ -71,18 +75,13 @@ class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView):
 
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    @action(methods=['get'], detail=True, url_path='details')  # detail
-    def get_details(self, request, pk):
+    @action(methods=['get'], detail=True, url_path='detail')  # detail
+    def get_detail(self, request, pk):
         details = ToursTotal.objects.get(pk=pk).details.filter(active=True)
-        # lessons = self.get_object().lessons.filter(active=True)
 
         q = request.query_params.get('q')
         if q is not None:
             details = details.filter(name__icontains=q)
-
-        # tours_id = self.request.query_params.get("tours_id")  # tìm theo khóa ngoại
-        # if tours_id is not None:
-        #     details = details.filter(tours_id=tours_id)
 
         return Response(TourDetailSerializers(details, many=True).data,
                         status=status.HTTP_200_OK)
@@ -110,7 +109,15 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView):
 
         return tour
 
-    @action(methods=['post'], detail=True, url_path='add-cmt')
+    @action(methods=['get'], detail=True, url_path="comment")
+    def get_cmt(self, request, pk):
+        cmt = ToursDetail.objects.get(pk=pk).comment.all()
+
+        return Response(CmtSerializers(cmt, many=True).data,
+                        status=status.HTTP_200_OK)
+
+
+    @action(methods=['post'], detail=True, url_path='add_cmt')
     def add_cmt(self, request, pk):
         content = request.data.get('content')
         if content:
@@ -133,7 +140,7 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView):
             return Response(ActionSerializer(action).data, status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=True, url_path='rating')
-    def rating_action(self, request,pk):
+    def rating_action(self, request, pk):
         try:
             value = request.data['value']
         except IndexError | ValueError:
@@ -143,7 +150,7 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView):
         return Response(RatingSerializer(rate).data, status=status.HTTP_200_OK)
 
     @action(methods=['get'], detail=True, url_path='views')
-    def inc_view(self, request,pk):
+    def inc_view(self, request, pk):
         v, created = TourDetailViews.objects.get_or_create(tourdetail=self.get_object())
         v.views = F('views') + 1
         v.save()
@@ -151,6 +158,10 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView):
         v.refresh_from_db()
         return Response(TourDetailViewSerializers(v).data, status=status.HTTP_200_OK)
 
+
+    # @action(methods=['post'],detail=True,url_path="booking")
+    # def booking_action(self,request,pk):
+    #
 
 class CmtViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.filter(active=True)
@@ -176,3 +187,8 @@ class HotelViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializers
+
+
+class AuthInfo(APIView):
+    def get(self, request):
+        return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)

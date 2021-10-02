@@ -48,7 +48,7 @@ class Transport(models.Model):
 
 class ToursTotal(ItemBase):
     class Meta:
-        ordering = ["-id"]
+        ordering = ["id"]
 
     decription = models.TextField(null=False, blank=True)
     tags = models.ManyToManyField('Tag', related_name="tours", blank=True, null=True)
@@ -72,7 +72,6 @@ class ToursDetail(ItemBase):
     tours = models.ForeignKey(ToursTotal, related_name="details", on_delete=models.CASCADE)
     hotel = models.ManyToManyField('Hotel', related_name="details", blank=True, null=True)
     transport = models.ManyToManyField('Transport', related_name="details", blank=True, null=True)
-    cmt = models.ManyToManyField('Comment', related_name="details", blank=True, null=True)
     imagedetail = models.ManyToManyField('ImgDetail', related_name="details", blank=True, null=True)
 
     def __str__(self):
@@ -91,14 +90,13 @@ class ToursDetail(ItemBase):
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
 
-
     def __str__(self):
         return self.name
 
 
 class Comment(models.Model):
-    cmt = models.TextField()
-    tourdetail = models.ForeignKey(ToursDetail, on_delete=models.CASCADE, null=False)
+    content = models.TextField()
+    tourdetail = models.ForeignKey(ToursDetail, related_name="comment", on_delete=models.CASCADE, null=False)
     customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     created_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
@@ -110,7 +108,7 @@ class ImgDetail(models.Model):
     tourdetail = models.ForeignKey(ToursDetail, on_delete=models.CASCADE, null=False)
 
     def __str__(self):
-        return self.image.name
+        return 'http://127.0.0.1:8000/' + self.image.name
 
 
 class ActionBase(models.Model):
@@ -143,26 +141,11 @@ class TourDetailViews(models.Model):
     views = models.IntegerField(default=0)
     tourdetail = models.OneToOneField(ToursDetail, on_delete=models.CASCADE)
 
-# class Bill (ItemBase):
-#     tours = models.ForeignKey(ToursTotal, on_delete=models.CASCADE, null=False)
-#     hotel = models.ForeignKey('Hotel',on_delete=models.SET_NULL,null=True)
-#     transport = models.ForeignKey('Transport',on_delete=models.SET_NULL,null=True)
-#     total = models.CharField(max_length=2 ,null=False)
-#     def __str__(self):
-#         return self.total
 
-# class Employee(models.Model):
-#
-#
-# class Static ():
-#     countTour =
-#     income =
-#     quy =
-#     year
-#
-# class News (ItemBase):
-#     imageNews = models.ImageField(upload_to= 'news/%Y/%m')
-#     content = RichTextField()
-#
-#     def __str__(self):
-#         return self.name
+# class Bill(ItemBase):
+#     tourdetail = models.ForeignKey(ToursDetail, related_name="bil", on_delete=models.CASCADE, null=False)
+#     hotel = models.ForeignKey('Hotel', on_delete=models.SET_NULL, null=True)
+#     transport = models.ForeignKey('Transport', on_delete=models.SET_NULL, null=True)
+#     total = models.CharField(max_length=2, null=False)
+#     customer = models.ForeignKey(User, related_name="bill", on_delete=models.CASCADE, null=False)
+#     price = models.CharField(max_length=50,null=False)

@@ -36,9 +36,9 @@ class TourDetailImgDetailInline(admin.StackedInline):
 
 class CmtAdmin(admin.ModelAdmin):
     # list_display = [field.name for field in Comment._meta.fields]
-    list_display = ["id" , "customer","details","created_date"]
-    list_filter = ["customer","details","created_date"]
-    search_fields = ["customer","details","created_date"]
+    list_display = ["id" , "customer","tourdetail","created_date"]
+    list_filter = ["customer","tourdetail","created_date"]
+    search_fields = ["customer","tourdetail","created_date"]
 
 class News(admin.ModelAdmin):
     list_display = ['id','name','created_date','active']
@@ -74,7 +74,7 @@ class TourDetailAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'timestart', 'timefinish', 'price','image']
     search_fields = ['id', 'name', 'price']
     list_filter = ['id', 'name', 'price']
-    inlines = [ToursDetailTransportInline, ToursDetailHotelInline,CmtInLine,TourDetailImgDetailInline]
+    inlines = [ ToursDetailHotelInline,TourDetailImgDetailInline]
 
     def picture(self, toursdetail):
         return mark_safe(

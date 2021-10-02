@@ -51,10 +51,13 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
-
-# OAUTH2_PROVIDER = {
-#     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
-# }
+OAUTH2_INFO = {
+    "client_id": "PjmXvesdwUoLC4GtFfapmfAZM6HjY8aayfekIjon",
+    "client_secret": "0hbC9LL7dCx7tMSpipjFo2RVsJVJTXtjRuJz4WRC929Jj2To1Mnv1wAyzQ2FHOUQu96ONBtMSHhV7MnkTnksxglvoNEg9GKOKUVogHxcefI9UgKD36v2UdnGG8EU0jy7"
+}
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+}
 
 
 MIDDLEWARE = [
