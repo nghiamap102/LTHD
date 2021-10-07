@@ -92,12 +92,8 @@ class TourDetail(ItemBase):
         return self.name
 
     @property
-    def final_price(self):
-        return self.price - self.price * (self.discount / 100)
-
-    # def get_hotels(self):
-    #     return "\n".join([p.name for p in self.hotel.all()])
-    #
+    def get_hotels(self):
+        return "\n".join([p.name for p in self.hotel.all()])
 
 
 class Blog(ItemBase):
@@ -150,7 +146,7 @@ class Booking(models.Model):
     )
 
     tour_detail = models.ForeignKey(TourDetail, related_name="booking", on_delete=models.CASCADE, null=False)
-    customer = models.ForeignKey(User,related_name="booking", on_delete=models.CASCADE, null=True)
+    customer = models.ForeignKey(User, related_name="booking", on_delete=models.CASCADE, null=True)
 
     content = models.TextField(null=True)
     adult = models.IntegerField(validators=[MinValueValidator(1)], default=1)
@@ -168,12 +164,22 @@ class Booking(models.Model):
         return (self.tour_detail.final_price * self.adult
                 + int(self.tour_detail.final_price * self.children) * 50 / 100
                 + (self.room * self.room_price))
-    # point = total / 1000
 
-# class Room_price(models.Model):
-#
-#     name = models.CharField(max_length=25 ,null=False)
-#     price = models.IntegerField()
+
+class Room_price(models.Model):
+    tour_detail = models.ForeignKey(TourDetail, related_name="room_price", on_delete=models.SET_NULL, null=True)
+    price = models.IntegerField()
+
+    def __str__(self):
+        return self.tour_detail
+
+
+class Point(models.Model):
+    customer = models.ForeignKey(User, related_name="point", on_delete=models.CASCADE, null=True)
+    point = models.IntegerField(default=0, null=True)
+
+    def __str__(self):
+        return self.customer
 
 
 class Comment(models.Model):
@@ -186,10 +192,6 @@ class Comment(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
-
-# class Point(models.Model):
-#     customer = models.ForeignKey(User,related_name="point", on_delete=models.CASCADE, null=True)
-#     point = models.IntegerField(default=0,null=True)
 
 # class Action(ActionBase):
 #     LIKE, HAHA, HEART = range(3)

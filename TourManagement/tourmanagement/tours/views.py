@@ -5,26 +5,23 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.views import APIView
 from django.conf import settings
-
 from .models import *
 from .serializers import *
 from django.db.models import F
+from .permission import *
 
-
-# generics.CreateAPIView,  # tao
-# generics.RetrieveAPIView,generics.UpdateAPIView):  # lay thong tin
 
 class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView, generics.CreateAPIView,
                   generics.UpdateAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializers
     parser_classes = [MultiPartParser]
+    permission_classes = [UserPermission]
 
-    def get_permissions(self):
-        if self.action in ['current_user', 'booking_detail', 'change_password']:
-            return [permissions.IsAuthenticated()]
-
-        return [permissions.AllowAny()]
+    # def get_permissions(self):
+    #     if self.action in ['current_user', 'booking_detail', 'change_password']:
+    #         return [permissions.IsAuthenticated()]
+    #     return [permissions.AllowAny()]
 
     @action(methods=['get'], detail=False, url_path='current-user')
     def current_user(self, request):
@@ -43,7 +40,7 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
         try:
             tour_detail = request.data['tour_detail']
             t = TourDetail.objects.get()
-            ud = Booking.objects.get(customer=request.user.id,tour_detail= tour_detail)
+            ud = Booking.objects.get(customer=request.user.id, tour_detail=tour_detail)
             ud.status = "Booking accepted"
             ud.save()
         except:
@@ -70,34 +67,75 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="Current Password incorrectly!")
 
-    @action(methods=['post'] , detail=False , url_path="forgot_password")
-    def forgot_password(self,request):
+    @action(methods=['post'], detail=False, url_path="forgot_password")
+    def forgot_password(self, request):
         try:
             phone = request.data['phone']
             username = request.data['username']
             current_password = request.data['current_password']
             new_password = request.data['new_password']
         except:
-            return  Response(status=status.HTTP_400_BAD_REQUEST,data="Invalid")
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="Invalid")
         try:
-            r = User.objects.get(username=username,password=current_password,phone=phone)
+            r = User.objects.get(username=username, password=current_password, phone=phone)
             try:
                 r.set_password(new_password)
                 r.save()
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data="Invalid")
         except:
-            return  Response(status=status.HTTP_400_BAD_REQUEST,data="failed")
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
 
+    @action(methods=['post'], url_path="register_user")
+    def register_user(self, request):
+        try:
+            username = request.data['username']
+            password = request.data['password']
+            is_staff = request.data['is_staff']
+            is_superuser = request.data['is_superuser']
 
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="invalid")
+
+        try:
+            u = User.objects.create(username=username,
+                                    password=password,
+                                    is_staff=is_staff,
+                                    is_superuser=is_superuser)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="Create_failed")
+        return Response(UserSerializers(u).data, status=status.HTTP_200_OK)
+
+    @action(methods=['post'], detail=False, url_path="update_info")
+    def update_info(self, request):
+        try:
+            phone = request.data['phone']
+            address = request.data['address']
+            birthdate = request.data['birthdate']
+            avatar = request.data['avatar']
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="invalid")
+
+        try:
+            u = User.objects.update_or_create(pk=request.user.id,
+                                              phone=phone,
+                                              address=address,
+                                              birthdate=birthdate,
+                                              avatar=avatar)
+
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="Create_failed")
+        return Response(UserSerializers(u).data, status=status.HTTP_200_OK)
 
     # @action(methods=['get'],detail=True,url_path="point")
     # def get_point(self,pk):
     #     p = User.objects.get(pk=pk).point.all()
     #     return Response(BookingSerializers(cmt, many=True).data,
     #                     status=status.HTTP_200_OK)
+    #
+    # @action(methods='post', )
 
-    @action(methods='post', )
+
 class ToursTotalPagination(PageNumberPagination):
     page_size = 6
 
@@ -152,6 +190,7 @@ class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Retrieve
 
     # @action(methods='post' ,url_path="del_tour")
     # def del_tour(self,request):
+
 
 class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generics.UpdateAPIView,
                          generics.CreateAPIView):

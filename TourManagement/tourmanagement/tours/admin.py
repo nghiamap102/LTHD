@@ -108,6 +108,9 @@ admin_site.register(Tag)
 admin_site.register(ImgDetail)
 admin_site.register(Transport)
 admin_site.register(Blog)
+admin_site.register(Room_price)
+admin_site.register(Point)
+
 admin_site.register(Permission)
 
 # admin.site.register(User)
