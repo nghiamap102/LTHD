@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'corsheaders',
 ]
+CORS_ALLOW_ALL_ORIGINS = True
 
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
@@ -51,9 +52,10 @@ REST_FRAMEWORK = {
         'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
     )
 }
+
 OAUTH2_INFO = {
-    "client_id": "PjmXvesdwUoLC4GtFfapmfAZM6HjY8aayfekIjon",
-    "client_secret": "0hbC9LL7dCx7tMSpipjFo2RVsJVJTXtjRuJz4WRC929Jj2To1Mnv1wAyzQ2FHOUQu96ONBtMSHhV7MnkTnksxglvoNEg9GKOKUVogHxcefI9UgKD36v2UdnGG8EU0jy7"
+    "client_id": 'dp4OYgfDlSzhG8UXugURl6RxMezw0poc1YzneV8b',
+    "client_secret": 'lN5N9CcQXAYINphJAOBNc7RURCJyhuM0d3xCVAggTxm0kr2YnAlk3b6jSZEumWstGCj9S0RXZ8NSB980UNGxBLqns97LA1wwiUqSreCEmg1akVks3kcYKr6n8tmQLoxX'
 }
 OAUTH2_PROVIDER = {
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
@@ -70,7 +72,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
-CORS_ALLOW_ALL_ORIGINS = True
 
 ROOT_URLCONF = 'tourmanagement.urls'
 
