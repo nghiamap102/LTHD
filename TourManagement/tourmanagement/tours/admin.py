@@ -1,67 +1,32 @@
 from django.contrib import admin
-from django.contrib.auth.models import Permission
 from django.template.response import TemplateResponse
 from django.utils.html import mark_safe
-from django import forms
-from django.db.models import Count
 from .models import *
-from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from django.urls import path
+from .serializers import TagSerializers
+from rest_framework import serializers
 
-# from .serializers import TagSerializers
-#
-#
-# class TourDetailImgDetailInline(admin.StackedInline):
-#     model = ImgDetail
-#
-#
-# class TourDetailStackInLine(admin.StackedInline):
-#     model = TourDetail
-#
-#
-# class TransportInline(admin.StackedInline):
-#     model = Transport
-#
-#
-# class HotelInline(admin.StackedInline):
-#     model = Hotel
-#
-#
-# class BlogInline(admin.StackedInline):
-#     model = Blog
-#
-#
-# class TourTotalAdmin(admin.ModelAdmin):
-#     tags = TagSerializers(many=True)
-#     list_display = ['id', 'name', 'image', 'count', 'tags', 'content', 'active']
-#     search_fields = ['id', 'name', 'tags']
-#     list_filter = ['name', 'active', 'tags']
-#     readonly_fields = ['picture', 'count']
-#
-#     inlines = [TourDetailStackInLine]
-#
-#     def count(self, obj):
-#         return obj.detail.count()
-#
-#     def picture(self, tours):
-#         return mark_safe(
-#             "<img src = /{img_url} alt = '{alt}' width='120px'/>"
-#                 .format(img_url=tours.image.name, alt=tours.name))
-#
-#
-# class TourDetailAdmin(admin.ModelAdmin):
-#     list_display = ['id', 'name', 'time_start', 'duration', 'price', 'tour', 'discount', 'status', 'active','final_price']
-#     search_fields = ['status', 'discount', 'time_start', 'price', 'tour']
-#     list_filter = ['status', 'discount', 'time_start', 'price', 'tour']
-#
-#     inlines = [TourDetailImgDetailInline, BlogInline]
-#
-#     def picture(self, tour_detail):
-#         return mark_safe(
-#             "<img src = /static/{img_url} alt = '{alt}' width='120px'/>"
-#                 .format(img_url=tour_detail.image.name, alt=tour_detail.name))
-#
-#
+
+class TourDetailImgDetailInline(admin.StackedInline):
+    model = ImgDetail
+
+
+class TourDetailStackInLine(admin.StackedInline):
+    model = TourDetail
+
+
+class TransportInline(admin.StackedInline):
+    model = Transport
+
+
+class HotelInline(admin.StackedInline):
+    model = Hotel
+
+
+class BlogInline(admin.StackedInline):
+    model = Blog
+
+
 class TourAppAdmin(admin.AdminSite):
     site_header = 'HE THONG QUAN LI DU LỊCH'
 
@@ -78,45 +43,85 @@ class TourAppAdmin(admin.AdminSite):
             # 'tours_detail_count': tours_detail_count,
             # 'stats': stats
         })
-#
-#
-# class CmtAdmin(admin.ModelAdmin):
-#     # list_display = [field.name for field in Comment._meta.fields]
-#     list_display = ["id", "customer", "tour_detail", "created_date"]
-#     list_filter = ["customer", "tour_detail", "created_date"]
-#     search_fields = ["customer", "tour_detail", "created_date"]
-#
-#
+
+
+class TourTotalAdmin(admin.ModelAdmin):
+    tags = TagSerializers(many=True)
+    count_detail = serializers.SerializerMethodField('count_detail')
+
+    def count_detail(self, tour):
+        return tour.detail.count()
+
+    list_display = ['id', 'name', 'image', 'tags', 'content', 'active', 'count_detail']
+    inlines = [TourDetailStackInLine]
+
+
+class TourDetailAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in TourDetail._meta.fields]
+    list_filter = ['created_date']
+    search_fields = ['name', 'duration']
+    inlines = [TourDetailImgDetailInline, BlogInline]
+
+    # def picture(self, tour_detail):
+    #     return mark_safe(
+    #         "<img src = /static/{img_url} alt = '{alt}' width='120px'/>"
+    #             .format(img_url=tour_detail.image.name, alt=tour_detail.name))
+
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ["id", "first_name", "last_name", "username", "is_superuser", "is_staff", 'active_staff',
+                    "date_joined", "is_active"]
+
+
+class BlogAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in Blog._meta.fields]
+
+
+class LikeAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in Like._meta.fields]
+
+
+class CmtBlogAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in CommentBlog._meta.fields]
+
+
+class BookingAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in Booking._meta.fields]
+
+
+class CmtTourAdmin(admin.ModelAdmin):
+    list_display = [f.name for f in CommentTourDetail._meta.fields]
+
+
 # class BookingAdmin(admin.ModelAdmin):
 #     list_display = ['customer', 'tour', 'adult', 'children', 'status', 'total', 'created_date']
 #     list_filter = ['created_date']
 #     search_fields = ['tour']
 
-class UserAdmin(admin.ModelAdmin):
-    list_display = ["id", "first_name", "last_name", "username", "is_superuser", "is_staff",'active_staff', "date_joined", "is_active"]
-
-
 admin_site = TourAppAdmin('myqldl')
 
 admin_site.register(User, UserAdmin)
-# admin_site.register(TourTotal, TourTotalAdmin)
-# admin_site.register(TourDetail, TourDetailAdmin)
-# admin_site.register(Comment, CmtAdmin)
-# admin_site.register(Booking)
-# admin_site.register(Hotel)
-# admin_site.register(Tag)
-# admin_site.register(ImgDetail)
-# admin_site.register(Transport)
-# admin_site.register(Blog)
-# admin_site.register(Room_price)
+admin_site.register(TourTotal, TourTotalAdmin)
+admin_site.register(TourDetail, TourDetailAdmin)
+admin_site.register(CommentTourDetail, CmtTourAdmin)
+admin_site.register(CommentBlog, CmtBlogAdmin)
+admin_site.register(Booking,BookingAdmin)
+admin_site.register(Hotel)
+admin_site.register(Tag)
+admin_site.register(ImgDetail)
+admin_site.register(Transport)
+admin_site.register(Blog, BlogAdmin)
+admin_site.register(Rating)
+admin_site.register(Like, LikeAdmin)
+
 # admin_site.register(Point)
 # admin_site.register(Permission)
+
 
 # admin.site.register(User)
 # admin.site.register(ToursTotal, TourTotalAdmin)
 # admin.site.register(ToursDetail, TourDetailAdmin)
 # admin.site.register(Hotel)
-# admin.site.register(Tag)
 # admin.site.register(Permission)
 # admin.site.register(Employee)
 # admin.site.register(News)

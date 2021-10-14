@@ -54,13 +54,13 @@ REST_FRAMEWORK = {
 }
 
 OAUTH2_INFO = {
-    "client_id": "AgM4YFpUCrc3P7UENKPK6qvcj16ulPffTcWngi4C",
-    "client_secret": "QeSgjQNRjq8kCThUSOoODKsr8N5AEwhOIQ0S7IIHUB2d1KK81gT2mDNZ8teJFVd1dMwxGiKZ4LFZd40MohsFkfSUuKfjPr6M16ZaNM6uw29aOpEvdeI4B2jOrwxei1sv"
+    "client_id": "V1Xb5MRepyl5SIUkSNDvHdownLxPjMRC63caDbbH",
+    "client_secret": "QuYWSyJmvAGX8BA3ID3IIJxyxZ3VqbD9MAT5kzuprq7lWUGNgCNHv8flObzdLWM9A1X5QYLqOvppUYvboCIqwqIqegw3kD0UyGgQHwMLWSS0PKvxTHejrsTLLA2qTfDO"
 }
 
-# OAUTH2_PROVIDER = {
-#     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
-# }
+OAUTH2_PROVIDER = {
+    'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
+}
 
 
 MIDDLEWARE = [

@@ -39,9 +39,10 @@ CREATE TABLE `tours_user` (
   `avatar` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `birthdate` datetime(6) DEFAULT NULL,
   `active_staff` tinyint(1) NOT NULL,
+  `point` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +51,7 @@ CREATE TABLE `tours_user` (
 
 LOCK TABLES `tours_user` WRITE;
 /*!40000 ALTER TABLE `tours_user` DISABLE KEYS */;
-INSERT INTO `tours_user` VALUES (1,'pbkdf2_sha256$260000$cjf5Qx06SEursdaCvPxIw1$OzcgpzXtLk5AHpC0oOvm7O6FJZI1Ll6KE9MV+PzdVAQ=','2021-10-09 05:47:38.000000',1,'admin','Hoang','Nghia','1851050093nghia@ou.edu.vn',1,1,'2021-10-09 04:48:38.000000','371 Nguyễn Kiệm','0358833453','static/user/2021/10/pq-packed.jpg','2021-10-05 06:00:00.000000',1),(6,'pbkdf2_sha256$260000$z8debBuQOFg1EawHICwM0g$HQTktqfCiZWMFzryAF1CpqRo63TRGOfla0DIFECIw18=','2021-10-09 05:46:34.000000',0,'user','Trịnh','Huy','mr.tuan1749@gmail.com',1,1,'2021-10-09 05:16:53.000000','371 Nguyễn Kiệm','0368921284','static/user/2021/10/pq-packed_ePt8O4z.jpg','2021-10-05 06:00:00.000000',0),(8,'pbkdf2_sha256$260000$X5tCwJKlki8zRRdchThdiX$DDWv2XP6vavEOznqC/ZP86ws7IPt4t1mHrgIC0IvSUY=','2021-10-09 05:45:54.000000',0,'staff','','','',1,1,'2021-10-09 05:34:35.000000','371 Nguyễn Kiệm','0358833453','static/user/2021/10/dl-blog.jpg','2021-10-05 06:00:00.000000',1);
+INSERT INTO `tours_user` VALUES (1,'pbkdf2_sha256$260000$35iflUtLtlCV3qxTuSTRje$GnzW/DkpHO7lkRQfArKyOq76AyPySQDsmoC0GlykNzI=','2021-10-13 05:49:24.000000',1,'admin','Hoang','Nghia','nghiahoang10225@yahoo.com.vn',1,1,'2021-10-13 05:49:10.000000','371 Nguyễn Kiệm','0361231584','static/user/2021/10/pq-packed.jpg','2021-10-05 06:00:00.000000',1,0),(2,'pbkdf2_sha256$260000$m1AptN3xUwbO5TEJ8Fh7lv$PdSLUWYsffzBUspAtwUWMgL2J6GmYdSabetJrZcUCig=',NULL,0,'staff','Thi','Ngoc','nghiahoang12345655@yahoo.com.vn',1,1,'2021-10-13 05:51:45.000000','371 Nguyễn Kiệm','0361231584','static/user/2021/10/dl-packed.jpg','2021-10-05 06:00:00.000000',1,0),(3,'pbkdf2_sha256$260000$m1AptN3xUwbO5TEJ8Fh7lv$PdSLUWYsffzBUspAtwUWMgL2J6GmYdSabetJrZcUCig=',NULL,0,'user','Trịnh','Huy','mr.tuan1749@gmail.com',1,1,'2021-10-13 05:52:17.000000','371 ngk','0361231584','static/user/2021/10/dl-blog.jpg','2021-10-05 06:00:00.000000',0,0);
 /*!40000 ALTER TABLE `tours_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -67,4 +68,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-10-09 13:41:43
+-- Dump completed on 2021-10-13 12:53:07

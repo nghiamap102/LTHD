@@ -1,6 +1,9 @@
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django.db.models import Avg, Count
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
 from .models import *
 from rest_framework import serializers
+from django import forms
 
 
 class TagSerializers(ModelSerializer):
@@ -9,8 +12,13 @@ class TagSerializers(ModelSerializer):
         fields = ['id', 'name']
 
 
+class TransportSerializers(ModelSerializer):
+    class Meta:
+        model = Transport
+        fields = ['id', 'name']
+
+
 class UserSerializers(ModelSerializer):
-    avatar = SerializerMethodField()
     user_type = serializers.SerializerMethodField('type')
 
     def type(self, user):
@@ -25,11 +33,7 @@ class UserSerializers(ModelSerializer):
         except:
             return "User"
 
-    def get_avatar(self, cmt):
-        avatar = cmt.avatar.name
-        path = 'http://127.0.0.1:8000/%s' % avatar
 
-        return path
 
     def create(self, validated_data):
         user = User(**validated_data)
@@ -41,7 +45,7 @@ class UserSerializers(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "username", "password", "phone", "address", "email", "is_superuser",
-                  "is_staff", 'active_staff', 'birthdate',
+                  "is_staff", 'active_staff', 'birthdate','point',
                   "date_joined", 'avatar', 'user_type']
 
         extra_kwargs = {
@@ -49,126 +53,158 @@ class UserSerializers(ModelSerializer):
         }
 
 
+class LikeSerializer(ModelSerializer):
+    type = serializers.CharField(source='get_type_display')
+
+    def get_type(self, like):
+        a = like.type
+        return a
+
+    class Meta:
+        model = Like
+        fields = ["id", "type", "created_date"]
+
+
+class RatingSerializer(ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ["id", "rate", "created_date"]
+
+
+class CmtBlogSerializers(ModelSerializer):
+    customer = SerializerMethodField()
+
+    def get_customer(self, cmt):
+        name = cmt.customer.username
+        id = cmt.customer.id
+        avatar = cmt.customer.avatar.name
+        avatar = 'http://127.0.0.1:8000/%s' % avatar
+        fname = cmt.customer.first_name
+        lname = cmt.customer.last_name
+
+        return id, name, avatar, fname, lname
+
+    class Meta:
+        model = CommentBlog
+        fields = ["id", "content", "blog", "customer", "created_date", "active"]
+
+
+class BlogSerializers(ModelSerializer):
+    like = serializers.SerializerMethodField()
+
+    def get_like(self, blog):
+        avg = blog.like.aggregate(Count('type'))
+        return avg
+
+    class Meta:
+        model = Blog
+        fields = ["id", "content", "name", "tour_detail", "image", "created_date", 'like']
+
+
+
+
+class HotelSerializers(ModelSerializer):
+    class Meta:
+        model = Hotel
+        fields = ['tour_detail', 'name', 'address', 'phone', 'email']
+
+
+class ImgDetailSerializers(ModelSerializer):
+    class Meta:
+        model = ImgDetail
+        fields = ['id', 'image', 'tour_detail']
+
+
+class BookingSerializers(ModelSerializer):
+    class Meta:
+        model = Booking
+        fields = ['id', 'customer', 'tour_detail', 'content']
+
+
+class TourTesSerial(ModelSerializer):
+    class Meta:
+        model = TourDetail
+        fields = ['id', 'status']
+
+
+
+class TourDetailViewSerializers(ModelSerializer):
+    class Meta:
+        model = TourDetailViews
+        fields = ["id", "views", "tour_detail"]
+
+
 class TourTotalSerializers(ModelSerializer):
-    tags = TagSerializers(many=True)
+    tags = TagSerializers(many=True, read_only=True)
 
     class Meta:
         model = TourTotal
-        fields = ['id', 'name', 'image', 'tags', 'content', 'created_date']
-
-# class TourDetailSerializers(ModelSerializer):
-#     image = SerializerMethodField()
-#     image_detail = serializers.StringRelatedField(many=True)
-#     rate = SerializerMethodField()
-#
-#     def get_rate(self, tour):
-#         request = self.context.get("request")
-#         if request and request.user.is_authenticated:
-#             r = tour.rating_set.filter(creator=request.user).first()
-#             if r:
-#                 return r.rate
-#         return -1
-#
-#     def get_image(self, course):
-#         name = course.image.name
-#         if name.startswith("static/"):
-#             path = 'http://127.0.0.1:8000/%s' % name
-#         return path
-#
-#     class Meta:
-#         model = TourDetail
-#         fields = ['id', 'name', 'image', 'created_date', 'price', 'status', 'time_start',
-#                   'duration', 'content', 'tour', 'discount',
-#                   'transport', 'image_detail', "rate", 'final_price']
-#
-#
-# class CmtSerializers(ModelSerializer):
-#     customer = SerializerMethodField()
-#
-#     def get_customer(self, cmt):
-#         name = cmt.customer.username
-#         id = cmt.customer.id
-#         avatar = cmt.customer.avatar.name
-#         avatar = 'http://127.0.0.1:8000/%s' % avatar
-#         fname = cmt.customer.first_name
-#         lname = cmt.customer.last_name
-#         return id, name, avatar, fname, lname
-#
-#     class Meta:
-#         model = Comment
-#         fields = ["id", "content", "tour_detail", "customer", "created_date", "active"]
-#
-#
-# class BookingSerializers(ModelSerializer):
-#     customer = SerializerMethodField()
-#
-#     def get_customer(self, cmt):
-#         name = cmt.customer.username
-#         id = cmt.customer.id
-#         avatar = cmt.customer.avatar.name
-#         avatar = 'http://127.0.0.1:8000/%s' % avatar
-#         fname = cmt.customer.first_name
-#         lname = cmt.customer.last_name
-#         return id, name, avatar, fname, lname
-#
-#     class Meta:
-#         model = Booking
-#         fields = ['id', 'tour_detail', 'customer', 'adult', 'children', 'room', 'room_price', 'status', 'total']
-#
-#
-# # class BookingSerializers(ModelSerializer):
-# #
-# #     class Meta:
-# #         model = Booking
-# #         fields = ['id', 'customer', 'tour_detail', 'content']
-#
-# class Room_PriceSerializer(ModelSerializer):
-#     class Meta:
-#         model = Point
-#         fields = ['id', 'tour_detail', 'price']
-#
-#
-# class TourTesSerial(ModelSerializer):
-#     class Meta:
-#         model = TourDetail
-#         fields = ['id', 'status']
-#
-#
-# class PointSerializer(ModelSerializer):
-#     class Meta:
-#         model = Point
-#         fields = ['id', 'customer', 'point']
-#
-#
-# class RatingSerializer(ModelSerializer):
-#     class Meta:
-#         model = Rating
-#         fields = ["id", "rate", "created_date"]
-#
-#
-# class TourDetailViewSerializers(ModelSerializer):
-#     class Meta:
-#         model = TourDetailViews
-#         fields = ["id", "views", "tour_detail"]
-#
-#
-# class HotelSerializers(ModelSerializer):
-#     class Meta:
-#         model = Hotel
-#         fields = ['id', 'name', 'address', 'phone', 'email']
-#
-#
-# class TransportSerializers(ModelSerializer):
-#     class Meta:
-#         model = Transport
-#         fields = ['id', 'name', 'active']
-#
-#
+        fields = ['id', 'name', 'image', 'content', "tags", 'created_date', "active"]
 
 
-#
+class TourDetailSerializers(ModelSerializer):
+    rate = SerializerMethodField()
+    status = SerializerMethodField()
+    transport = TransportSerializers(many=True, read_only=True)
+    img_detail = ImgDetailSerializers(many=True, read_only=True)
+    booking = BookingSerializers(many=True, read_only=True)
 
-# class BlogSerializers(ModelSerializer):
-#     class Meta:
-#         model = Blog
-#         fields = ['id', 'created_date', 'image', 'tags', 'active']
+    def get_rate(self, tour):
+        avg = tour.rating.aggregate(Avg('rate'))
+
+        return avg
+
+    def get_status(self, detail):
+        try:
+            status = detail.slot
+            if status <= 0:
+                return "Out of"
+            return "Remaining"
+        except:
+            return "Remaining"
+
+    class Meta:
+        model = TourDetail
+        fields = ['id','name', 'image', 'slot', 'time_start', 'duration', 'content', 'tour',
+                  'price_room','price_tour','total','discount',
+                  'transport','img_detail', 'status', 'transport', 'img_detail', 'rate', 'booking']
+
+
+class CmtTourSerializers(ModelSerializer):
+    customer = SerializerMethodField()
+
+    def get_customer(self, cmt):
+        name = cmt.customer.username
+        id = cmt.customer.id
+        avatar = cmt.customer.avatar.name
+        avatar = 'http://127.0.0.1:8000/%s' % avatar
+        fname = cmt.customer.first_name
+        lname = cmt.customer.last_name
+
+        return id, name, avatar, fname, lname
+
+    class Meta:
+        model = CommentTourDetail
+        fields = ["id", "content", "tour_detail", "customer", "created_date", "active"]
+
+
+class BookingSerializers(ModelSerializer):
+    customer = SerializerMethodField()
+    status = serializers.CharField(source="get_status_display")
+
+    def get_status(self, booking):
+        a = booking.status
+        return a
+
+    def get_customer(self, cmt):
+        name = cmt.customer.username
+        id = cmt.customer.id
+        avatar = cmt.customer.avatar.name
+        avatar = 'http://127.0.0.1:8000/%s' % avatar
+        fname = cmt.customer.first_name
+        lname = cmt.customer.last_name
+        return id, name, avatar, fname, lname
+
+    class Meta:
+        model = Booking
+        fields = ['id', 'tour_detail', 'customer', 'adult', 'children', 'room', 'status', 'total','created_date']
