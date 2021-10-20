@@ -1,5 +1,6 @@
 from operator import ge
 from django.contrib.auth.hashers import make_password, check_password
+from django.template.defaulttags import url
 from rest_framework import generics, viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.parsers import MultiPartParser, JSONParser
@@ -11,16 +12,40 @@ from .models import *
 from .serializers import *
 from django.db.models import F
 from .permission import *
+from .paginator import *
 
 
 class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIView, generics.CreateAPIView,
-                  generics.UpdateAPIView):
+                  generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializers
     parser_classes = [MultiPartParser]
     permission_classes = [UserPermission]
 
-    ## register user,staff k cần đăng nhập
+    def partial_update(self, request, *args, **kwargs):
+        c = request.data['id']
+        if c:
+            print(c)
+            if request.data['id'] == self.get_object().pk:
+                try:
+                    b = request.data
+                    p = User.objects.update_or_create(pk=request.user.id, defaults={
+                        'phone': b['phone'],
+                        'address': b['address'],
+                        'birthdate': b['birthdate'],
+                        'avatar': b['avatar'],
+                        'username': b['username'],
+                        'password': make_password(b['password']),
+                        # 'active_staff': b['active_staff']
+                    })
+                    a = User.objects.get(pk=request.user.id)
+                    return Response(UserSerializers(a).data, status=status.HTTP_200_OK)
+                except:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+            return super().partial_update(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+        # return Response(UserSerializers(a).data, status=status.HTTP_200_OK)
+
     @action(methods=['get'], detail=False, url_path='current_user')  ## xong
     def current_user(self, request):
         return Response(self.serializer_class(request.user).data)
@@ -47,30 +72,26 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="Current Password incorrectly!")
 
-    @action(methods=['post'], detail=False, url_path="forgot_password")  ##xong
+    @action(methods=['post'], detail=False, url_path='forgot_password')  ## xong
     def forgot_password(self, request):
         try:
-            phone = request.data['phone']
+
             username = request.data['username']
+            phone = request.data['phone']
             new_password = request.data['new_password']
             confirm_password = request.data['confirm_password']
+            if new_password == confirm_password:
+                r = User.objects.get(username=username, phone=phone)
+                try:
+                    r.set_password(new_password)
+                    r.save()
+                    return Response(UserSerializers(r).data, status=status.HTTP_200_OK)
+                except:
+                    return Response(status=status.HTTP_400_BAD_REQUEST, data="Dont save")
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data="Invalid")
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="Invalid")
-        try:
-            r = User.objects.get(username=username, phone=phone)
-            if r:
-                if new_password == confirm_password:
-                    try:
-                        r.set_password(new_password)
-                        r.save()
-                        return Response(data=UserSerializers(r, context={'request': request}).data,
-                                        status=status.HTTP_400_BAD_REQUEST)
-                    except:
-                        return Response(status=status.HTTP_400_BAD_REQUEST, data="Dont save")
-            return Response(status=status.HTTP_400_BAD_REQUEST, data="confirm and password incorrect")
-
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
 
     @action(methods=['post'], detail=False, url_path='inactive_user')  ## xong
     def inactive_user(self, request):
@@ -92,69 +113,42 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
-    # @action(methods=['post'], detail=False, url_path="register_staff")  ## xong
-    # def register_user(self, request):
-    #     try:
-    #         username = request.data['username']
-    #         password = make_password(request.data['password'])
-    #         is_staff = request.data['is_staff']
-    #         is_superuser = request.data['is_superuser']
-    #     except:
-    #         return Response(status=status.HTTP_400_BAD_REQUEST, data="invalid")
-    #
-    #     try:
-    #         u = User.objects.create(username=username,
-    #                                 password=password,
-    #                                 is_staff=is_staff,
-    #                                 is_superuser=is_superuser)
-    #         return Response(data=UserSerializers(u, context={'request': request}).data, status=status.HTTP_201_CREATED)
-    #     except:
-    #         return Response(status=status.HTTP_400_BAD_REQUEST, data="Create_failed")
+    @action(methods=['post'], detail=False, url_path="update_info")  ## Cập nhật csdl nhưng vẫn bị catch lỗi
+    def update_info(self, request):
+        try:
+            b = request.data
+            p = User.objects.update_or_create(pk=request.user.id, defaults={
+                'phone': b['phone'],
+                'address': b['address'],
+                'birthdate': b['birthdate'],
+                'avatar': b['avatar'],
+                'email': b['email'],
+                'last_name': b['last_name'],
+                # 'active_staff': b['active_staff']
+            })
+            a = User.objects.get(pk=request.user.id)
+            return Response(UserSerializers(a).data, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="Create_failed")
 
-    # @action(methods=['post'], detail=False, url_path="update_info_user")  ## Cập nhật csdl nhưng vẫn bị catch lỗi
-    # def update_info_user(self, request):
-    #
-    #
-    #     # try:
-    #     data = request.data
-    #     p = User.objects.update_or_create(pk=request.user.id, defaults={
-    #         'phone': data['phone'],
-    #         'address': data['address'],
-    #         'birthdate': data['birthdate'],
-    #         'avatar': data['avatar'],
-    #         # 'username': data['username'],
-    #         # 'password': make_password(data['password']),
-    #         # 'active_staff':active_staff
-    #     })
-    #     a = User.objects.get(pk=request.user.id)
-    #     return Response(UserSerializers(a).data, status=status.HTTP_200_OK)
-    #
-    # @action(methods=['post'], detail=False, url_path="update_info_staff")  ## Cập nhật csdl nhưng vẫn bị catch lỗi
-    # def update_info_staff(self, request):
-    #     try:
-    #         b = request.data
-    #         p = User.objects.update_or_create(pk=request.user.id, defaults={
-    #             'phone': b['phone'],
-    #             'address': b['address'],
-    #             'birthdate': b['birthdate'],
-    #             'avatar': b['avatar'],
-    #             'username': b['username'],
-    #             'password': make_password(b['password']),
-    #             'active_staff': b['birthdate']
-    #         })
-    #         a = User.objects.get(pk=request.user.id)
-    #         return Response(UserSerializers(a).data, status=status.HTTP_200_OK)
-    #     except:
-    #         return Response(status=status.HTTP_400_BAD_REQUEST, data="Create_failed")
-
-    # @action(methods=['get'], detail=False, url_path="point")  # xong lấy điểm theo nv
-    # def get_point(self, request):
-    #     try:
-    #         p = Point.objects.get(customer=request.user.id)
-    #     except:
-    #         return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed to get point")
-    #     return Response(PointSerializer(p).data,
-    #                     status=status.HTTP_200_OK)
+    @action(methods=['post'], detail=False, url_path='change-password')
+    def change_password(self, request):
+        try:
+            try:
+                u = User.objects.get(pk=request.user.id)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data="user not found")
+            try:
+                u.set_password(request.data['password'])
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
+            try:
+                u.save()
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data="save!")
+            return Response(status=status.HTTP_200_OK, data="Change password success!")
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed!")
 
     # @action(methods=['get'], detail=False, url_path="booking_detail")  ##Xong
     # def booking_detail(self, request):
@@ -192,18 +186,43 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
     #     return Response(BookingSerializers(ud).data, status=status.HTTP_200_OK)
 
 
-class ToursTotalPagination(PageNumberPagination):
-    page_size = 20
-
-
 class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView, generics.RetrieveAPIView,
                        generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = TourTotal.objects.filter(active=True)
     serializer_class = TourTotalSerializers
     parser_classes = [JSONParser, MultiPartParser]
     permission_classes = [TourToTalPermission]
+    pagination_class = ToursTotalPagination
 
     # tạo, sửa , xóa xong
+
+    def create(self, request, *args, **kwargs):
+        try:
+            b = request.data
+            if b:
+                try:
+                    a = TourTotal.objects.create(
+                        name=b['name'],
+                        content=b['content'],
+                        image=b['image'],
+                    )
+                    tags = request.data["tags"]
+                    if tags is not None:
+                        t, _ = Tag.objects.get_or_create(name=tags)
+                        a.tags.add(t)
+
+                        a.save()
+                    # b = TourTotalSerializers.objects.get(name=b['name'],
+                    #                                      content=b['content'],
+                    #                                      image=b['image'],
+                    #
+                    #                                      )
+                    return Response(TourTotalSerializers2(a).data, status=status.HTTP_200_OK)
+                except:
+                    return Response(status=status.HTTP_400_BAD_REQUEST, data="create_failed")
+            return super().create(request, *args, **kwargs)
+        except:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
     def get_queryset(self):
         courses = TourTotal.objects.filter(active=True)
@@ -232,24 +251,24 @@ class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
 
         return Response(status=status.HTTP_404_NOT_FOUND)
 
-    @action(methods=['get'], detail=True, url_path='get_detail')  # detail
-    def get_detail(self, request, pk):
+    @action(methods=['get'], detail=True, url_path='list_detail')  # detail
+    def list_detail(self, request, pk):
         dt = TourTotal.objects.get(pk=pk).detail.filter(active=True)
 
-        name = request.query_params.get('name')
-        price = request.query_params.get('price')
-        time = request.query_params.get('time')
-        status = request.query_params.get('status')
+        # name = request.query_params.get('name')
+        # price = request.query_params.get('price')
+        # time = request.query_params.get('time')
+        # status = request.query_params.get('status')
 
-        if name is not None:
-            dt = dt.filter(name__icontains=name)
-        if price is not None:
-            dt = dt.filter(tags__icontains=price)
-        if time is not None:
-            dt = dt.filter(name__icontains=time)
-        if status is not None:
-            dt = dt.filter(name__icontains=status)
-        return Response(TourDetailSerializers(dt, many=True).data,
+        # if name is not None:
+        #     dt = dt.filter(name__icontains=name)
+        # if price is not None:
+        #     dt = dt.filter(tags__icontains=price)
+        # if time is not None:
+        #     dt = dt.filter(name__icontains=time)
+        # if status is not None:
+        #     dt = dt.filter(name__icontains=status)
+        return Response(TourDetailSerializers2(dt, many=True).data,
                         status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=True, url_path="add_tour_detail")
@@ -259,18 +278,16 @@ class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
             price_tour = int(data['price_tour'])
             discount = int(data['discount'])
             duration = int(data['duration'])
-            content = data['content']
             price_room = int(data['price_room'])
             name = data['name']
             image = data['image']
-            # time_start = data['time_start']
+            time_start = data['time_start']
             total = int(price_tour - discount / 100 * price_tour)
             try:
                 dt = TourDetail.objects.create(
                     tour=self.get_object(),
                     name=name,
-                    # time_start=time_start,
-                    content=content,
+                    time_start=time_start,
                     duration=duration,
                     price_room=price_room,
                     price_tour=price_tour,
@@ -278,7 +295,14 @@ class TourTotalViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
                     total=total,
                     image=image,
                 )
-                return Response(TourDetailSerializers(dt).data, status=status.HTTP_200_OK)
+                # transport = data['transport']
+                # if transport is not None:
+                #     for i in transport:
+                #         t, _ = Transport.objects.get_or_create(name=i)
+                #         dt.transport.add(t)
+                #
+                #     dt.save()
+                return Response(TourDetailSerializers2(dt).data, status=status.HTTP_200_OK)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data="add_fail")
         except:
@@ -295,6 +319,37 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
     # Thêm sửa xóa detail xog
     # Thêm sửa xóa cmt trong tour và cmtviewset xog
 
+
+    # def retrieve(self, request, *args, **kwargs):
+    #     c = request.data['id']
+    #     a = TourTotal.objects.get(pk =c)
+    #     return Response(TourDetailSerializers2())
+
+    def partial_update(self, request, *args, **kwargs):
+        c = request.data['id']
+        if c:
+            if request.data['id'] == self.get_object().pk:
+                try:
+                    b = request.data
+                    p = TourDetail.objects.update_or_create(pk=c, defaults={
+                        "tour": b["tour"],
+                        "name": b["name"],
+                        "time_start": b["time_start"],
+                        "duration": b["duration"],
+                        "price_room": b["price_room"],
+                        "price_tour": b["price_tour"],
+                        "discount": b["discount"],
+                        "total": int(b["price_room"] - b["discount"] / 100 * b["price_tour"]),
+                        "image": b["image"],
+                    })
+                    print(b['image'])
+                    a = TourDetail.objects.get(pk=request.data['id'])
+                    return Response(TourDetailSerializers(a).data, status=status.HTTP_200_OK)
+                except:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+            return super().partial_update(request, *args, **kwargs)
+        return Response(status=status.HTTP_403_FORBIDDEN)
+
     def get_queryset(self):  # search
         tour = TourDetail.objects.filter(active=True)
         kw = self.request.query_params.get('kw')
@@ -309,7 +364,7 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
 
     @action(methods=['get'], detail=True, url_path="comment")  # xong
     def get_cmt(self, request, pk):
-        cmt = TourDetail.objects.get(pk=pk).comment.all()
+        cmt = TourDetail.objects.get(pk=pk).cmt_tour.all()
 
         return Response(CmtTourSerializers(cmt, many=True).data,
                         status=status.HTTP_200_OK)
@@ -375,7 +430,6 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
         try:
             children = int(request.data['children'])
             adult = int(request.data['adult'])
-            content = request.data.get('content')
             room = int(request.data['room'])
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="invalid")
@@ -384,48 +438,59 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
             total = int((children * sl.total) * 50 / 100
                         + adult * sl.total
                         + room * sl.price_room)
-            print(total)
             if sl.slot <= 0:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data="out of stt")
             else:
                 try:
-                    c = Booking.objects.create(content=content,
+                    c = Booking.objects.create(
                                                tour_detail=self.get_object(),
                                                children=children,
                                                adult=adult,
                                                room=room,
                                                total=total,
                                                customer=request.user)
-                    try:
-                        if sl.slot >= 0:
-                            sl.slot = sl.slot - adult - children
-                            sl.save()
-                    except:
-                        return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed_stt")
-                    try:
-                        u = User.objects.get(pk=request.user.id)
-
-                        u.point = u.point + total / 1000
-                        print(u.point)
-                        u.save()
-                        return Response(UserSerializers(u).data, status=status.HTTP_200_OK)
-                    except:
-                        return Response(status=status.HTTP_400_BAD_REQUEST, data="point_failed")
+                    return  Response(BookingSerializers(c).data,status=status.HTTP_200_OK)
                 except:
                     return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed_add")
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed")
 
-    @action(methods=['post'], detail=True, url_path="update_booking")
-    def update_booking(self, request,pk):
+    @action(methods=['get'], detail=True, url_path="update_booking")
+    def update_booking(self, request, pk):
         try:
-            ud = Booking.objects.get(customer=request.user)
-            ud.status = "p"
-            ud.save()
-            return Response(BookingSerializers(ud).data, status=status.HTTP_200_OK)
+            ud = Booking.objects.get(customer=request.user,tour_detail = self.get_object())
+            sl = TourDetail.objects.get(pk=pk)
 
+            ud.status = "a"
+            ud.save()
+
+            try:
+                if sl.slot >= 0:
+                    sl.slot = sl.slot - ud.adult - ud.children
+                    sl.save()
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed_stt")
+            try:
+                u = User.objects.get(pk=request.user.id)
+
+                u.point = u.point + ud.total / 1000
+                u.save()
+                return Response(UserSerializers(u).data, status=status.HTTP_200_OK)
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST, data="point_failed")
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
+
+    @action(methods=['post'],detail=True,url_path='cancel_booking')
+    def cancel_booking(self,request,pk):
+        try:
+            ud = Booking.objects.get(customer=request.user,tour_detail = self.get_object())
+            ud.status = "c"
+            ud.save()
+            return Response(BookingSerializers(ud).data,status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
+
 
     @action(methods=['get'], detail=True, url_path='views')
     def inc_view(self, request, pk):
@@ -478,8 +543,9 @@ class BlogViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.CreateAPI
     # xong thêm sửa xóa
     queryset = Blog.objects.filter(active=True)
     serializer_class = BlogSerializers
-    permission_classes = [BlogPermission]
+    # permission_classes = [BlogPermission]
     parser_classes = [MultiPartParser, JSONParser]
+    pagination_class = BlogPagination
 
     @action(methods=['post'], detail=True, url_path='like')  # xong hiện count
     def like_action(self, request, pk):
@@ -488,7 +554,8 @@ class BlogViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.CreateAPI
         except IndexError | ValueError:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            action = Like.objects.create(type=action_type, creator=request.user, blog=self.get_object())
+            action = Like.objects.update_or_create(creator=request.user, blog=self.get_object()
+                                                   , defaults={'type': action_type})
 
             return Response(LikeSerializer(action).data, status=status.HTTP_200_OK)
 
@@ -531,17 +598,19 @@ class HotelViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.RetrieveAP
     permission_classes = [HotelPermission]
 
 
-class TagViewSet(viewsets.ViewSet):
+class TagViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView, generics.RetrieveAPIView,
+                 generics.DestroyAPIView, generics.UpdateAPIView):
     queryset = Tag.objects.all()
     serializer_class = TagSerializers
     parser_classes = [MultiPartParser, JSONParser]
 
 
-class BookingDetailViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.DestroyAPIView, generics.UpdateAPIView):
+class BookingDetailViewSet(viewsets.ViewSet,generics.ListAPIView, generics.RetrieveAPIView, generics.DestroyAPIView, generics.UpdateAPIView):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializers
     permissions = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser, JSONParser]
+
 
 
 class ImgDetailViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView
@@ -561,6 +630,18 @@ class LikeViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView
     , generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+
+
+class TransportViewSet(viewsets.ModelViewSet):
+    queryset = Transport.objects.all()
+    serializer_class = TransportSerializers
+
+
+class StaticViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView, generics.RetrieveAPIView
+    , generics.UpdateAPIView, generics.DestroyAPIView):
+    queryset = Booking.objects.filter(status="a")
+    serializer_class = BookingSerializers
+    # permission_classes = []
 
 
 class AuthInfo(APIView):

@@ -13,10 +13,12 @@ router.register('cmt_tour', views.CmtTourViewSet, basename='cmt_tour')
 router.register('cmt_blog', views.CmtBlogViewSet, basename='cmt_blog')
 router.register('like', views.LikeViewSet, basename='like')
 router.register('rating', views.RatingViewSet, basename='rating')
+router.register('tags', views.TagViewSet, basename='tags')
+router.register('transport', views.TransportViewSet, basename='transport')
+router.register('booking', views.BookingDetailViewSet, basename='booking')
+router.register('static', views.StaticViewSet, basename='static')
 
-# router.register('booking_detail', views.BookingDetailViewSet, basename='booking_detail')
 router.register('hotel', views.HotelViewSet, basename='hotel')
-router.register('tag', views.TagViewSet, basename='tag')
 router.register('img_detail', views.ImgDetailViewSet, basename='img_detail')
 
 urlpatterns = [

@@ -6,7 +6,7 @@ class UserPermission(BasePermission):
     def has_permission(self, request, view):
         if request.user.is_superuser:
             return True
-        elif request.method in [SAFE_METHODS, 'PUT', 'PATCH'] or view.action in ['del_user', '']:
+        elif request.method in [SAFE_METHODS, 'PUT', 'PATCH', 'DELETE'] or view.action in ['del_user', '']:
             return request.user.is_superuser
         elif view.action in ["create", 'forgot_password']:
             return True
@@ -16,10 +16,10 @@ class UserPermission(BasePermission):
 class TourToTalPermission(BasePermission):
 
     def has_permission(self, request, view):
-        if request.user.is_superuser:
-            return True
-        elif view.action in ['create', 'add_tags', "tour_detail", ''] or request.method in ['PUT', 'PATCH', 'DELETE']:
-            return request.user.is_superuser
+        # if request.user.is_superuser:
+        #     return True
+        # elif view.action in ['create', 'add_tags', "tour_detail", ''] or request.method in ['PUT', 'PATCH', 'DELETE']:
+        #     return request.user.is_superuser or request.user.active_staff
         return True
 
 
@@ -48,6 +48,7 @@ class CmtPermission(BasePermission):
             return request.user.is_authenticated
         return True
 
+
 class HotelPermission(BasePermission):
     def has_permission(self, request, view):
         if request.user.is_superuser:
@@ -75,8 +76,9 @@ class ImgDetailPermission(BasePermission):
 class BlogPermission(BasePermission):
     def has_permission(self, request, view):
         if request.method in ['PUT', 'PATCH', 'DELETE'] or view.action in ['create']:
-            return request.user.active_staff or request.user.is_superuser
+            return request.user.is_superuser
         return True
+
 
 class PriceRoomPermission(BasePermission):
     def has_permission(self, request, view):

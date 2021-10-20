@@ -6,6 +6,8 @@ from ckeditor.fields import RichTextField
 
 
 class User(AbstractUser):
+    class Meta:
+        unique_together = ['phone','username']
     address = models.CharField(max_length=50, null=True)
     phone = models.CharField(max_length=12, null=True)
     avatar = models.ImageField(upload_to='static/user/%Y/%m', null=True)
@@ -94,7 +96,8 @@ class Blog(models.Model):
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=True)
-    content = RichTextUploadingField()
+    content = RichTextUploadingField(null=True)
+    decription = models.TextField(null=True)
     tour_detail = models.ForeignKey(TourDetail, related_name='blog', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
@@ -180,11 +183,11 @@ class Like(models.Model):
     class Meta:
         unique_together = ["blog", "creator"]
 
-    LIKE, HAHA, HEART, SAD, ANGRY = range(5)
+    LIKE, HEART, HAHA, SAD, ANGRY = range(5)
     ACTIONS = [
         (LIKE, 'like'),
-        (HAHA, 'haha'),
         (HEART, 'heart'),
+        (HAHA, 'haha'),
         (SAD, 'sad'),
         (ANGRY, 'angry'),
     ]
