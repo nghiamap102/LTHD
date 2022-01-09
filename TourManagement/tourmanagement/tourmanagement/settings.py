@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -36,12 +36,17 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tours.apps.ToursConfig',
+    'django.contrib.sites',  # Add this
     'ckeditor',
     'ckeditor_uploader',
     'rest_framework',
     'oauth2_provider',
     'drf_yasg',
     'corsheaders',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -54,13 +59,51 @@ REST_FRAMEWORK = {
 }
 
 OAUTH2_INFO = {
-    "client_id": "V1Xb5MRepyl5SIUkSNDvHdownLxPjMRC63caDbbH",
-    "client_secret": "QuYWSyJmvAGX8BA3ID3IIJxyxZ3VqbD9MAT5kzuprq7lWUGNgCNHv8flObzdLWM9A1X5QYLqOvppUYvboCIqwqIqegw3kD0UyGgQHwMLWSS0PKvxTHejrsTLLA2qTfDO"
+    "client_id": "ohHMLwstB7XLDhMM93XGoPn9XCVVlXVomf4zpjY1",
+    "client_secret": "KJoOyQPGvu8aKR9axbKslgpEjTA1kLVAt95BCTQMcBMixkFCN9aGlRLzjuYRNBJDhM67uDw8WWc6p6AT9gXh7jpjPDkMs7uIQFGX2aocDtg2vGkhF3xkZiJp2jQkhJo1"
 }
 
 OAUTH2_PROVIDER = {
     'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuthLibCore'
 }
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = "nghiamap1002@gmail.com"
+EMAIL_HOST_PASSWORD = "gokvjhszpixbzbus"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
+
+SITE_ID = 1
+
+LOGIN_REDIRECT_URL = '/'
+# LOGOUT_REDIRECT_URL = '/'
+
+# Additional configuration settings
+SOCIALACCOUNT_QUERY_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET= True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_EMAIL_REQUIRED = True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS': {
+            'access_type': 'online',
+        }
+    }
+}
+
 
 
 MIDDLEWARE = [
@@ -79,7 +122,7 @@ ROOT_URLCONF = 'tourmanagement.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -145,6 +188,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_ROOT = '%s/tours/' % BASE_DIR
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 CKEDITOR_UPLOAD_PATH = 'tours/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

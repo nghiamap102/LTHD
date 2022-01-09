@@ -3,12 +3,8 @@ from django.template.response import TemplateResponse
 from django.utils.html import mark_safe
 from .models import *
 from django.urls import path
-from .serializers import TagSerializers
+from .serializers import TagCountrySerializers
 from rest_framework import serializers
-
-
-class TourDetailImgDetailInline(admin.StackedInline):
-    model = ImgDetail
 
 
 class TourDetailStackInLine(admin.StackedInline):
@@ -23,8 +19,6 @@ class HotelInline(admin.StackedInline):
     model = Hotel
 
 
-class BlogInline(admin.StackedInline):
-    model = Blog
 
 
 class TourAppAdmin(admin.AdminSite):
@@ -46,13 +40,13 @@ class TourAppAdmin(admin.AdminSite):
 
 
 class TourTotalAdmin(admin.ModelAdmin):
-    tags = TagSerializers(many=True)
+    tag = TagCountrySerializers(many=True)
     count_detail = serializers.SerializerMethodField('count_detail')
 
     def count_detail(self, tour):
         return tour.detail.count()
 
-    list_display = ['id', 'name', 'image', 'tags', 'content', 'active', 'count_detail']
+    list_display = ['id', 'name', 'image', 'tag', 'content', 'active', 'count_detail']
     inlines = [TourDetailStackInLine]
 
 
@@ -60,7 +54,6 @@ class TourDetailAdmin(admin.ModelAdmin):
     list_display = [f.name for f in TourDetail._meta.fields]
     list_filter = ['created_date']
     search_fields = ['name', 'duration']
-    inlines = [TourDetailImgDetailInline, BlogInline]
 
     # def picture(self, tour_detail):
     #     return mark_safe(
@@ -69,7 +62,7 @@ class TourDetailAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ["id", "first_name", "last_name", "username", "is_superuser", "is_staff", 'active_staff',
+    list_display = ["id", "first_name", "last_name", "username", "is_superuser", "is_staff",
                     "date_joined", "is_active"]
 
 
@@ -93,29 +86,35 @@ class CmtTourAdmin(admin.ModelAdmin):
     list_display = [f.name for f in CommentTourDetail._meta.fields]
 
 
+
+
 # class BookingAdmin(admin.ModelAdmin):
 #     list_display = ['customer', 'tour', 'adult', 'children', 'status', 'total', 'created_date']
 #     list_filter = ['created_date']
 #     search_fields = ['tour']
 
-admin_site = TourAppAdmin('myqldl')
+# admin.site = TourAppAdmin('myqldl')
 
-admin_site.register(User, UserAdmin)
-admin_site.register(TourTotal, TourTotalAdmin)
-admin_site.register(TourDetail, TourDetailAdmin)
-admin_site.register(CommentTourDetail, CmtTourAdmin)
-admin_site.register(CommentBlog, CmtBlogAdmin)
-admin_site.register(Booking,BookingAdmin)
-admin_site.register(Hotel)
-admin_site.register(Tag)
-admin_site.register(ImgDetail)
-admin_site.register(Transport)
-admin_site.register(Blog, BlogAdmin)
-admin_site.register(Rating)
-admin_site.register(Like, LikeAdmin)
+admin.site.register(User, UserAdmin)
+admin.site.register(Departure, TourTotalAdmin)
+admin.site.register(Destination)
+admin.site.register(TourDetail, TourDetailAdmin)
+admin.site.register(CommentTourDetail, CmtTourAdmin)
+admin.site.register(CommentBlog, CmtBlogAdmin)
+admin.site.register(Booking,BookingAdmin)
+admin.site.register(Hotel)
+admin.site.register(TagCountry)
+admin.site.register(TagBlog)
+admin.site.register(TagTourDetail)
+admin.site.register(ImgDetail)
+admin.site.register(Transport)
+admin.site.register(Blog, BlogAdmin)
+admin.site.register(Rating)
+admin.site.register(Staff)
+admin.site.register(Views)
+admin.site.register(Like, LikeAdmin)
 
-# admin_site.register(Point)
-# admin_site.register(Permission)
+# admin_site.register(S)
 
 
 # admin.site.register(User)
