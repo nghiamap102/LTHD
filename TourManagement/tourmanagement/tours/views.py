@@ -34,7 +34,7 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
     queryset = User.objects.filter(is_active=True)
     serializer_class = UserSerializers
     parser_classes = [MultiPartParser, JSONParser]
-    permission_classes = [UserPermission]
+    # permission_classes = [UserPermission]
 
     def partial_update(self, request, *args, **kwargs):
         c = request.data['id']
@@ -63,7 +63,7 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
     def current_user(self, request):
         return Response(self.serializer_class(request.user).data, status=status.HTTP_200_OK)
 
-    @action(methods=['post'], detail=False, url_path='change_password')  ## xong 3 quyền
+    @action(methods=['post'], detail=False, url_path='change_password')
     def change_password(self, request):
         try:
             u = User.objects.get(pk=request.user.id)
@@ -128,9 +128,8 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
     def update_booking(self, request):
         try:
             tour_detail = request.data['tour_detail']
-            ud = Booking.objects.get(customer=request.user, tour_detail=tour_detail, status="p")
+            ud = Booking.objects.get(customer= request.user , tour_detail = tour_detail , status = "p")
             sl = TourDetail.objects.get(pk=tour_detail)
-
             ud.status = "a"
             ud.save()
 
@@ -143,26 +142,40 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
             try:
                 u = User.objects.get(pk=request.user.id)
 
-                u.point = u.point + ud.total / 1000
+                u.point = u.point + ud.total / 100000
                 u.save()
+
+                mail_to = request.data['mail_to']
+                msg = "Thank u to pay amount" + " " + str(ud.total) + " " +"VND"
+                send_mail('CoachManagement', msg, settings.EMAIL_HOST_USER, [mail_to],
+                          fail_silently=False)
                 return Response(UserSerializers(u).data, status=status.HTTP_200_OK)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data="point_failed")
+
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
 
+
+
     @action(methods=['post'], detail=False, url_path="cancel_booking")
-    def del_booking(self, request):
-        # cmt = User.objects.get(pk=request.user.id).booking.all()
+    def cancel_booking(self, request):
         try:
             tour_detail = request.data['tour_detail']
-            ud = Booking.objects.get(customer=request.user.id, tour_detail=self.get_object())
-            if ud.created_date.date + 3:
-                ud.status = "Booking canceled"
+            ud = Booking.objects.get(customer=request.user, tour_detail=tour_detail, status="p")
+
+            try:
+                u = User.objects.get(pk=request.user.id)
+                u.point = u.point +  ud.point_used
+                ud.status = "c"
                 ud.save()
+                u.save()
+                return Response( status=status.HTTP_200_OK, data="ok")
+
+            except:
+                return Response( status=status.HTTP_200_OK, data="failed")
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
-        return Response(BookingSerializers(ud).data, status=status.HTTP_200_OK)
 
     @action(methods=['post'], detail=False, url_path="check_exist")
     def check_exist(self, request):
@@ -170,12 +183,7 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
         u = User.objects.get(username=a)
         return Response(UserSerializers(u).data, status=status.HTTP_200_OK)
 
-    @action(methods=['post'], detail=False, url_path="send_mail")
-    def send_mail(self, request):
-        mail_to = request.data['mail_to']
-        send_mail('Test', 'abc', settings.EMAIL_HOST_USER, [mail_to],
-                  fail_silently=False)
-        return Response(status=status.HTTP_200_OK)
+
 
     @action(methods=['post'], detail=False, url_path="send_mail_all")
     def send_mail_all(self, request):
@@ -184,13 +192,30 @@ class UserViewSet(viewsets.ViewSet, generics.ListAPIView, generics.RetrieveAPIVi
                   fail_silently=False)
         return Response(status=status.HTTP_200_OK)
 
+    @action(methods=['post'], detail=False, url_path="update_info")  ## Cập nhật csdl nhưng vẫn bị catch lỗi
+    def update_info(self, request):
+        try:
+            b = request.data
+            p = User.objects.update_or_create(pk=request.user.id, defaults={
+                'phone': b['phone'],
+                'address': b['address'],
+                'birthdate': b['birthdate'],
+                # 'avatar': b['avatar'],
+                'email': b['email'],
+                'last_name': b['last_name'],
+                # 'active_staff': b['active_staff']
+            })
+            a = User.objects.get(pk=request.user.id)
+            return Response(UserSerializers(a).data, status=status.HTTP_200_OK ,data="ok")
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST, data="Create_failed")
 
 class DepartureViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView, generics.RetrieveAPIView,
                        generics.UpdateAPIView, generics.DestroyAPIView):
     queryset = Departure.objects.filter(active=True)
     serializer_class = DepartureSerializers
     parser_classes = [JSONParser, MultiPartParser]
-    permission_classes = [TourToTalPermission]
+    # permission_classes = [TourToTalPermission]
     pagination_class = ToursTotalPagination
 
     # tạo, sửa , xóa xong
@@ -319,11 +344,11 @@ class DestinationViewSet(viewsets.ViewSet, generics.ListAPIView, generics.Create
     pagination_class = ToursTotalPagination
 
 
-class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generics.UpdateAPIView,
+class TourViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generics.UpdateAPIView,
                          generics.CreateAPIView, generics.ListAPIView):
     queryset = TourDetail.objects.filter(active=True)
     serializer_class = TourDetailSerializers
-    permission_classes = [TourDetailPermission]
+    # permission_classes = [TourDetailPermission]
     parser_classes = [MultiPartParser, JSONParser]
     pagination_class = TourDetailPagination
 
@@ -354,7 +379,6 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
     def get_queryset(self):  # search
         a = TourDetail.objects.filter(active=True)
         try:
-
             name = self.request.query_params.get("name")
             total = self.request.query_params.get("total")
             time_to = self.request.query_params.get("time_to")
@@ -528,13 +552,18 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
             children = int(request.data['children'])
             adult = int(request.data['adult'])
             room = int(request.data['room'])
+            total = int(request.data['total'])
+            pointUsed = int(request.data['pointUsed'])
+
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="invalid")
         try:
             sl = TourDetail.objects.get(pk=pk)
-            total = int((children * sl.total) * 50 / 100
-                        + adult * sl.total
-                        + room * sl.price_room)
+            u = User.objects.get(pk=request.user.id)
+
+            u.point = u.point - pointUsed
+            u.save()
+
             if sl.slot <= 0:
                 return Response(status=status.HTTP_400_BAD_REQUEST, data="out of stt")
             else:
@@ -545,19 +574,21 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
                         adult=adult,
                         room=room,
                         total=total,
+                        point_used = pointUsed,
                         customer=request.user)
                     return Response(BookingSerializers(c).data, status=status.HTTP_200_OK)
                 except:
                     return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed_add")
+
+
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST, data="Failed")
 
-    @action(methods=['get'], detail=True, url_path="update_booking")
+    @action(methods=['post'], detail=True, url_path="update_booking")
     def update_booking(self, request, pk):
         try:
             ud = Booking.objects.get(customer=request.user, tour_detail=self.get_object(), status="p")
             sl = TourDetail.objects.get(pk=pk)
-
             ud.status = "a"
             ud.save()
 
@@ -570,13 +601,11 @@ class ToursDetailViewSet(viewsets.ModelViewSet, generics.RetrieveAPIView, generi
             try:
                 u = User.objects.get(pk=request.user.id)
 
-                u.point = u.point + ud.total / 1000
+                u.point = u.point + ud.total / 100000
                 u.save()
-
-                message = "Thank " + u.first_name + " " + u.last_name + " to booking at them with " + str(
-                    ud.total) + "VND"
-
-                send_mail('Test', message, settings.EMAIL_HOST_USER, [u.email],
+                mail_to = request.data['mail_to']
+                msg = "Thank u to pay amount" + " " + str(ud.total) + " " +"VND"
+                send_mail('CoachManagement', msg, settings.EMAIL_HOST_USER, [mail_to],
                           fail_silently=False)
                 return Response(UserSerializers(u).data, status=status.HTTP_200_OK)
             except:
@@ -599,7 +628,7 @@ class CmtTourViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.Create
                      generics.DestroyAPIView, generics.ListAPIView):
     queryset = CommentTourDetail.objects.filter(active=True)
     serializer_class = CmtTourSerializers
-    permission_classes = [CmtPermission]
+    # permission_classes = [CmtPermission]
     parser_classes = [MultiPartParser, JSONParser]
 
     def destroy(self, request, *args, **kwargs):
@@ -617,7 +646,7 @@ class CmtBlogViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.Create
                      generics.DestroyAPIView, generics.ListAPIView):
     queryset = CommentBlog.objects.filter(active=True)
     serializer_class = CmtBlogSerializers
-    permission_classes = [CmtPermission]
+    # permission_classes = [CmtPermission]
     parser_classes = [MultiPartParser, JSONParser]
 
     def destroy(self, request, *args, **kwargs):
@@ -640,18 +669,7 @@ class BlogViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.CreateAPI
     parser_classes = [MultiPartParser, JSONParser]
     pagination_class = BlogPagination
 
-    @action(methods=['post'], detail=False, url_path='send_mail')
-    def send_mail(self, request, pk):
 
-        email = request.data['email']
-        phone = request.data['phone']
-        content = request.data['content']
-
-        msg = 'from' + email + 'phone' + phone + content
-
-        send_mail('Request', msg, email, [settings.EMAIL_HOST_USER],
-                  fail_silently=False)
-        return Response(status=status.HTTP_200_OK, data="success")
 
     def get_queryset(self):  # search
         a = Blog.objects.filter(active=True)
@@ -702,18 +720,14 @@ class BlogViewSet(viewsets.ViewSet, generics.RetrieveAPIView, generics.CreateAPI
 
     @action(methods=['post'], detail=True, url_path='add_comment')  # xong
     def add_comment(self, request, pk):
-        try:
-            content = request.data.get('content')
-            try:
-                if content:
-                    c = CommentBlog.objects.create(content=content,
-                                                   blog=self.get_object(),
-                                                   customer=request.user)
-                    return Response(CmtBlogSerializers(c).data, status=status.HTTP_201_CREATED)
-            except:
-                return Response(status=status.HTTP_400_BAD_REQUEST, data="failed")
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST, data="invalid")
+        content = request.data.get('content')
+        if content:
+            c = CommentBlog.objects.create(content=content,
+                                         blog=self.get_object(),
+                                         customer=request.user)
+            return Response(CmtBlogSerializers(c).data, status=status.HTTP_201_CREATED)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(methods=['post'], detail=True, url_path="update_tag")
     def update_tag(self, request, pk):
@@ -820,7 +834,7 @@ class ImgDetailViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
     , generics.UpdateAPIView):
     queryset = ImgDetail.objects.all()
     serializer_class = ImgDetailSerializers
-    permission_classes = [ImgDetailPermission]
+    # permission_classes = [ImgDetailPermission]
 
 
 class RatingViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView
@@ -865,6 +879,10 @@ class AuthInfo(APIView):
     def get(self, request):
         return Response(settings.OAUTH2_INFO, status=status.HTTP_200_OK)
 
+
+class StaffViewSet(viewsets.ModelViewSet):
+    queryset = Staff.objects.all()
+    serializer_class = StaffSerializer
 
 class TokenGenerator(PasswordResetTokenGenerator):
     def _make_hash_value(self, user, timestamp):

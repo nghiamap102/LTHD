@@ -22,6 +22,7 @@ class User(AbstractUser):
 
 class Staff(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    activeStaff = models.BooleanField(default=False)
 
 
 class ItemBase(models.Model):
@@ -158,17 +159,14 @@ class Booking(models.Model):
     tour_detail = models.ForeignKey(TourDetail, related_name="booking", on_delete=models.CASCADE, null=False)
     customer = models.ForeignKey(User, related_name="booking", on_delete=models.CASCADE, null=True)
 
-    content = models.TextField(null=True)
     adult = models.IntegerField(validators=[MinValueValidator(1)], default=1)
     children = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     status = models.CharField(max_length=1, choices=BOOKING_STATUS, default="p")
-
     room = models.IntegerField(validators=[MinValueValidator(0)], default=0)
-
     created_date = models.DateTimeField(auto_now_add=True, null=True)
-
     total = models.IntegerField(null=True)
+    point_used = models.IntegerField(null=True)
 
     def __int__(self):
         return self.total

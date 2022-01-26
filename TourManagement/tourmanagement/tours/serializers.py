@@ -8,6 +8,10 @@ import django.contrib.auth.password_validation as validators
 from django.core.exceptions import ValidationError
 from django.db.models import Q
 
+class StaffSerializer(ModelSerializer):
+    class Meta:
+        model = Staff
+        fields = ['user' , 'activeStaff']
 
 class TagTourDetailSerializers(ModelSerializer):
     class Meta:
@@ -52,12 +56,14 @@ class TransportSerializers(ModelSerializer):
 
 class UserSerializers(ModelSerializer):
     user_type = serializers.SerializerMethodField('type')
-    avatar = serializers.SerializerMethodField()
+    staff = StaffSerializer(read_only=True)
 
-    def get_avatar(self, user):
-        avatar = user.avatar
-        path = 'http://127.0.0.1:8000/%s' % avatar
-        return path
+    # avatar = serializers.SerializerMethodField()
+    #
+    # def get_avatar(self, user):
+    #     avatar = user.avatar
+    #     path = 'http://127.0.0.1:8000/%s' % avatar
+    #     return path
 
     def type(self, user):
         try:
@@ -65,7 +71,7 @@ class UserSerializers(ModelSerializer):
 
             if admin:
                 return "Admin"
-            if user.staff is not None:
+            if user.staff.activeStaff :
                 return "Staff"
             return "User"
         except:
@@ -78,15 +84,17 @@ class UserSerializers(ModelSerializer):
 
         return user
 
+
+
     class Meta:
         model = User
         fields = ["id", "first_name", "last_name", "username",'password', "phone", "address", "email", "is_superuser",
                   "is_staff", 'staff', 'birthdate', 'point',
                   "date_joined", 'avatar','avatar_url', 'user_type']
 
-        # extra_kwargs = {
-        #     'password': {'write_only': 'true'}
-        # }
+        extra_kwargs = {
+            'password': {'write_only': 'true'}
+        }
 
 
 class LikeSerializer(ModelSerializer):
@@ -276,7 +284,7 @@ class DestinationSerializers(ModelSerializer):
         return count
 
     class Meta:
-        model = Departure
+        model = Destination
         fields = ['id', 'name', 'image', 'content', "tag", 'created_date', "active", 'count']
 
 
@@ -401,3 +409,6 @@ class TourDetailSerializers2(ModelSerializer):
                   'price_room',
                   'price_tour', 'total', 'discount',
                   'transport', 'img_detail', 'status', 'transport', 'img_detail', 'rate', 'status', 'hotel']
+
+
+
